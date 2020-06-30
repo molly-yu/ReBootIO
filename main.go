@@ -14,20 +14,30 @@ import (
 
 func main() {
 
-	// get admin permissions if not administrator
-	if !amAdmin() {
-		runMeElevated()
-	}
-	time.Sleep(10 * time.Second)
+	var input string
+	fmt.Println("Reset NVR date and time? (y)es or (n)o")
+	fmt.Scanln(&input)
 
-	dt := time.Now().Add(time.Hour * 24 * 5)
-	err := SetSystemDate(dt)
-	if err != nil {
-		fmt.Printf("Error: %s", err.Error())
+	dt := time.Now().Add(time.Hour * (12))
+	if input == "y" {
+		// get admin permissions if not administrator
+		if !amAdmin() {
+			runMeElevated()
+		}
+		time.Sleep(5 * time.Second)
+
+		err1 := SetSystemDate(dt)
+		if err1 != nil {
+			fmt.Printf("Error: %s", err1.Error())
+		}
+		err2 := SetSystemTime(dt)
+		if err2 != nil {
+			fmt.Printf("Error: %s", err2.Error())
+		}
 	}
 
-	//With short weekday (Mon)
-	fmt.Println((dt).Format("01-02-2006 15:04:05 Mon"))
+	// With short weekday (Mon)
+	fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
 }
 
 // Set the system date to desired reboot date
@@ -55,7 +65,15 @@ func SetSystemDate(newTime time.Time) error {
 
 // Set the system time to desired reboot time
 func SetSystemTime(newTime time.Time) error {
-
+	timeString := newTime.Format("15:04:05.00")
+	fmt.Printf("Setting system time to: %s\n", timeString)
+	args := []string{"/C", "time", timeString}
+	cmd := exec.Command("cmd.exe", args...)
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+	return cmd.Run()
 }
 
 // get admin permissions
