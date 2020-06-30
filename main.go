@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"os/exec"
@@ -29,19 +30,32 @@ func main() {
 	fmt.Println((dt).Format("01-02-2006 15:04:05 Mon"))
 }
 
-// Set the system date and time to desired reboot date and time
+// Set the system date to desired reboot date
 func SetSystemDate(newTime time.Time) error {
-	_, lookErr := exec.LookPath("date")
-	if lookErr != nil {
-		fmt.Printf("Date binary not found, cannot set system date: %s\n", lookErr.Error())
-		return lookErr
-	} else {
-		//dateString := newTime.Format("2006-01-2 15:4:5")
-		dateString := newTime.Format("2 Jan 2006 15:04:05 Mon")
-		fmt.Printf("Setting system date to: %s\n", dateString)
-		args := []string{"--set", dateString}
-		return exec.Command("date", args...).Run()
-	}
+	// _, lookErr := exec.LookPath("date")
+	// if lookErr != nil {
+	// 	fmt.Printf("Date binary not found, cannot set system date: %s\n", lookErr.Error())
+	// 	return lookErr
+	// } else {
+	dateString := newTime.Format("2006-01-02")
+	fmt.Printf("Setting system date to: %s\n", dateString)
+	args := []string{"/C", "date", dateString}
+	cmd := exec.Command("cmd.exe", args...)
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+	return cmd.Run()
+	// if err != nil {
+	// 	fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
+	// }
+	// fmt.Println("Result: " + out.String())
+	// return err
+}
+
+// Set the system time to desired reboot time
+func SetSystemTime(newTime time.Time) error {
+
 }
 
 // get admin permissions
