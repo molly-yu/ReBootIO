@@ -18,13 +18,22 @@ func main() {
 	fmt.Println("Reset NVR date and time? (y)es or (n)o")
 	fmt.Scanln(&input)
 
-	dt := time.Now().Add(time.Hour * (12))
+	dt := time.Now()
+
 	if input == "y" {
 		// get admin permissions if not administrator
 		if !amAdmin() {
 			runMeElevated()
 		}
-		time.Sleep(5 * time.Second)
+		time.Sleep(10 * time.Second)
+
+		var tm string
+		fmt.Println("Enter restart date and time in format 2006-01-02T15:04:05Z:")
+		fmt.Scanln(&tm)
+
+		//dt := time.Date(2020, 06, 17, 20, 34, 58, 65, time.UTC) // yyyy, mm, dd, hh, min, ss, ms
+		dt, _ = time.Parse("2006-01-02T15:04:05Z", tm)
+		fmt.Println(dt)
 
 		err1 := SetSystemDate(dt)
 		if err1 != nil {
@@ -100,9 +109,9 @@ func runMeElevated() {
 func amAdmin() bool {
 	_, err := os.Open("\\\\.\\PHYSICALDRIVE0")
 	if err != nil {
-		fmt.Println("admin no")
+		fmt.Println("You do not have administrator permissions.")
 		return false
 	}
-	fmt.Println("admin yes")
+	fmt.Println("You are currently in administrator mode.")
 	return true
 }
