@@ -14,8 +14,8 @@ func main() {
 	}
 
 	// Alter default window size and window title.
-	window.WindowOptions.Width = 980
-	window.WindowOptions.Height = 1200
+	window.WindowOptions.Width = 1200
+	window.WindowOptions.Height = 980
 	window.WindowOptions.Title = "ReBootUI"
 
 	// Start the browser window.
