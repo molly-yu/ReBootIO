@@ -2,20 +2,24 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 
+
 const Styles = styled.div`
+    .brand{
+        text-align:left;
+        color: #f2f2f2;
+        font-size:17px;
+    }
      .navbar{
         text-align:center;
-        background: #2F80ED
-        position: fixed;
-        top: 0;
+        background: #213168;
         width: 100%;
-        z-index:10;
         margin:0;
         border:0;
+        height:6vh;
+        z-index:10;
     }
     .navbar-brand, .navbar-nav, .nav-link .navbar-collapse{
         color: #f2f2f2;
-        font-size: 20 px;
         &:hover{
             color: #A4CCEB;
             border-bottom: 3px;
@@ -25,7 +29,8 @@ const Styles = styled.div`
         float: left;
         display: block;
         color: #f2f2f2;
-        text-align: center;
+        text-align: right;
+        font-family: "Yu Gothic UI", sans-serif;
         padding: 14px 16px;
         text-decoration: none;
         font-size: 17px;
@@ -50,7 +55,7 @@ export default class Navbar extends Component{
         return(
             <Styles>
             <nav className="navbar navbar-expand-lg">
-                {/* <Link to="/" className="navbar-brand">ReBootUI</Link> */}
+                <a href="#setup" className="brand">ReBootUI</a>
                 <div className="collapse navbar-collapse">
                     {/* <ul className="navbar-nav mr-auto">
                      <li className="navbar-item">

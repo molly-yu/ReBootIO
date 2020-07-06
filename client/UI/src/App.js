@@ -11,7 +11,8 @@ export default class App extends Component {
         return (
             <div>
             <Navbar/>
-            <h1>Hello</h1>
+             <Setup/>
+             <Results/>
             </div>
         );
     }
