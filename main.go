@@ -15,12 +15,12 @@ import (
 func main() {
 
 	var input string
-	fmt.Println("Reset NVR date and time? (y)es or (n)o")
+	fmt.Println("Reset: 1 - SRX-Pro. 2 - Switches")
 	fmt.Scanln(&input)
 
 	dt := time.Now()
 
-	if input == "y" {
+	if input == "1" {
 		// get admin permissions if not administrator
 		if !amAdmin() {
 			runMeElevated()
@@ -43,10 +43,28 @@ func main() {
 		if err2 != nil {
 			fmt.Printf("Error: %s", err2.Error())
 		}
+		// With short weekday (Mon)
+		fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
+	} else if input == "2" {
+		var ip string
+		fmt.Println("Enter switch IP address:")
+		fmt.Scanln(&ip)
+
+		var user string
+		fmt.Println("Enter username:")
+		fmt.Scanln(&ip)
+
+		var pass string
+		fmt.Println("Enter password:")
+		fmt.Scanln(&ip)
+
+		uri := strings.Join([]string{"http://", ip, "/rb-cgi/reboot.cgi?user=", user, "&pwd=", pass}, "")
+		// args := []string{"/C", uri}
+		// cmd := exec.Command("cmd.exe", args...)
+
+		fmt.Printf(uri)
 	}
 
-	// With short weekday (Mon)
-	fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
 }
 
 // Set the system date to desired reboot date
