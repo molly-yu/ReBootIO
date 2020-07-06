@@ -8,15 +8,15 @@ import (
 
 func main() {
 	// Create a new browser window instance
-	window, err := gotron.New()
+	window, err := gotron.New("UI/dist")
 	if err != nil {
 		panic(err)
 	}
 
 	// Alter default window size and window title.
-	window.WindowOptions.Width = 1200
-	window.WindowOptions.Height = 980
-	window.WindowOptions.Title = "Gotron"
+	window.WindowOptions.Width = 980
+	window.WindowOptions.Height = 1200
+	window.WindowOptions.Title = "ReBootUI"
 
 	// Start the browser window.
 	// This will establish a golang <=> nodejs bridge using websockets,
