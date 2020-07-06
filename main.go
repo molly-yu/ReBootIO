@@ -3,11 +3,14 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"net/http"
 	"os"
 	"os/exec"
 	"strings"
 	"syscall"
 	"time"
+
+	//"io/ioutil"
 
 	"golang.org/x/sys/windows"
 )
@@ -20,7 +23,7 @@ func main() {
 
 	dt := time.Now()
 
-	if input == "1" {
+	if input == "1" { // reset srx-pro through date/time change
 		// get admin permissions if not administrator
 		if !amAdmin() {
 			runMeElevated()
@@ -45,24 +48,25 @@ func main() {
 		}
 		// With short weekday (Mon)
 		fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
-	} else if input == "2" {
+
+	} else if input == "2" { // reset switches through http request
 		var ip string
 		fmt.Println("Enter switch IP address:")
 		fmt.Scanln(&ip)
 
 		var user string
 		fmt.Println("Enter username:")
-		fmt.Scanln(&ip)
+		fmt.Scanln(&user)
 
 		var pass string
 		fmt.Println("Enter password:")
-		fmt.Scanln(&ip)
+		fmt.Scanln(&pass)
 
-		uri := strings.Join([]string{"http://", ip, "/rb-cgi/reboot.cgi?user=", user, "&pwd=", pass}, "")
-		// args := []string{"/C", uri}
-		// cmd := exec.Command("cmd.exe", args...)
-
-		fmt.Printf(uri)
+		rebootSwitch(ip, user, pass)
+		// err := rebootSwitch(ip, user, pass)
+		// if err != nil {
+		// 	fmt.Printf("Error: %s", err.Error())
+		// }
 	}
 
 }
@@ -101,6 +105,19 @@ func SetSystemTime(newTime time.Time) error {
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
 	return cmd.Run()
+}
+
+// Reboot switches through http
+func rebootSwitch(ip string, user string, pass string) {
+	uri := strings.Join([]string{"http://", ip, "/rb-cgi/reboot.cgi?user=", user, "&pwd=", pass}, "")
+	res, err := http.Get(uri)
+	if err != nil {
+		fmt.Printf("Error: %s", err.Error())
+	}
+
+	// data, _ := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+
 }
 
 // get admin permissions
