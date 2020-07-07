@@ -16,7 +16,7 @@ func main() {
 	// Alter default window size and window title.
 	window.WindowOptions.Width = 1200
 	window.WindowOptions.Height = 980
-	window.WindowOptions.Title = "ReBootUI"
+	window.WindowOptions.Title = "ReBootIO"
 
 	// Start the browser window.
 	// This will establish a golang <=> nodejs bridge using websockets,

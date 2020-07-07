@@ -18,7 +18,7 @@ import (
 func reboot() {
 
 	var input string
-	fmt.Println("Reset: 1 - SRX-Pro. 2 - Switches")
+	fmt.Println("Reset: 1 - SRX-Pro, 2 - Switches, 3 - UIO8")
 	fmt.Scanln(&input)
 
 	dt := time.Now()
@@ -67,6 +67,8 @@ func reboot() {
 		// if err != nil {
 		// 	fmt.Printf("Error: %s", err.Error())
 		// }
+	} else if input == "3" {
+		
 	}
 
 }

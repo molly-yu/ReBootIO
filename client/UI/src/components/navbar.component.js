@@ -19,6 +19,7 @@ const Styles = styled.div`
         z-index:10;
     }
     .navbar-brand, .navbar-nav, .nav-link .navbar-collapse{
+        float: left;
         color: #f2f2f2;
         &:hover{
             color: #A4CCEB;
@@ -26,7 +27,7 @@ const Styles = styled.div`
         }
     }
     .navbar a {
-        float: left;
+        
         display: block;
         color: #f2f2f2;
         text-align: right;
@@ -44,7 +45,11 @@ const Styles = styled.div`
             border-bottom: 3px;
             color: #74AAD5;
           }
-      }   
+      }
+      
+      .tab{
+        float: right;
+      }
       
 `;
 
@@ -55,7 +60,7 @@ export default class Navbar extends Component{
         return(
             <Styles>
             <nav className="navbar navbar-expand-lg">
-                <a href="#setup" className="brand">ReBootUI</a>
+                <a className="navbar-brand" href="#">RebootIO</a>
                 <div className="collapse navbar-collapse">
                     {/* <ul className="navbar-nav mr-auto">
                      <li className="navbar-item">
@@ -66,8 +71,10 @@ export default class Navbar extends Component{
                         </li> 
                         
                     </ul> */}
-                <a href="#setup">Setup</a>
-                <a href="#results">Results</a>
+                
+                <Link to="/results" className="tab">Results</Link>
+                <Link to="/setup" className="tab">Setup</Link>
+                
                 </div>
             </nav>
             </Styles>

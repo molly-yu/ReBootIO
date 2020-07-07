@@ -18,7 +18,7 @@ export default class Setup extends Component{
         return(
             <Styles>
             <div className="Setup" id="setup">
-                <h2>Setup</h2>
+                <h2>Reboot:</h2>
             </div>
             </Styles>
         )
