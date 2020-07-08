@@ -13,6 +13,7 @@ import styled from 'styled-components';
 //   stroke-width: 2px;
 // `;
 
+
 // // hide checkbox visually
 // const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
 //   border: 0;
@@ -50,7 +51,7 @@ class Checkbox extends Component {
   }
 
   toggleCheckboxChange = () => {
-    const { handleCheckboxChange, label} = this.props;
+    const { handleCheckboxChange, label } = this.props;
 
     this.setState(({ checked }) => ({
       checked: !checked

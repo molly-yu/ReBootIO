@@ -2,111 +2,129 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import {Row, Col, Form, Button} from 'react-bootstrap';
 // import Checkbox from "./checkbox.component";
-import { Form, Checkbox } from 'semantic-ui-react';
+import { Checkbox } from 'semantic-ui-react';
+// import DatePicker from './datepicker.component';
+import DateTimePicker from 'react-datetime-picker';
 
 const Styles = styled.div`
-text-align:left;
-background: white;
-width:100%;
- border:0;
- height:100vh;
- position:relative;
- z-index: 5;
+  margin: 2em;
 `;
 
-// const items = [
-//     '1',
-//     '2',
-//     '3'
-// ];
+function handleClick(e) {
+  e.preventDefault();
+  console.log('The link was clicked.');
+}
 
 export default class Setup extends Component{
-    state = {}
+    state = {
+      date: new Date(),
+    }
+    onChange = date => this.setState({ date })
     handleChange = (e, { value }) => this.setState({ value })
-    // componentDidMount = () => {
-    //     this.selectedCheckboxes = new Set();
-    // }
-    // // state = { checked: false }
-
-    // // handleCheckboxChange = event => {
-    // //     this.setState({ checked: event.target.checked })
-    // // }
-
-    // toggleCheckbox = label => {
-    //     if (this.selectedCheckboxes.has(label)){
-    //         this.selectedCheckboxes.delete(label);
-    //     } else {
-    //         this.selectedCheckboxes.add(label);
-    //     }
-    // }
-
-    // handleFormSubmit = formSubmitEvent => {
-    //     formSubmitEvent.preventDefault();
-
-    //     for (const checkbox of this.selectedCheckboxes){
-    //         console.log(checkbox, ' is selected');
-    //     }
-    // }
-
-    // createCheckbox = label => {
-    //     <Checkbox
-    //     label = { label }
-    //     handleCheckboxChange = { this.toggleCheckbox }
-    //     key = { label }
-    //     />
-    // }
-    
-    // createCheckboxes = () => {
-    //     items.map(this.createCheckbox)
-    // }
-
 
     render() {
         return(
             <Styles>
             <div className="Setup" id="setup">
                 <h2>Reboot:</h2>
-                {/* // <label>
-                // <Checkbox */}
-                {/* // checked={this.state.checked}
-                // onChange={this.handleCheckboxChange}/>
-                // <span style={{marginLeft:8}}>1 - </span>
-                // </label> */}
-                {/* <div className="col-sm-12">
+                <Form> 
+                
+                  <Form.Group >
+                    Selected value: <b>{this.state.value}</b>
+                  </Form.Group>
+                  <Form.Row>
+                  <Form.Group as={Col}>
+                    <Checkbox
+                      radio
+                      label='SRX-Pro'
+                      name='checkboxRadioGroup'
+                      value='SRX-Pro'
+                      checked={this.state.value === 'SRX-Pro'}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col}>
+                    <Form.Label>Reboot Date and Time</Form.Label>
+                  <DateTimePicker
+                  onChange={this.onChange}
+                  value={this.state.date}
+                />
+                 </Form.Group>
 
-                <form onSubmit={this.handleFormSubmit}>
-                {this.createCheckboxes()}
+                 <Form.Group as={Col}>
+                    <Form.Label>Time Interval</Form.Label>
+                    <Form.Control type="interval" placeholder="hh:mm:ss" />
+                  </Form.Group>
 
-                <button className="btn btn-default" type="submit">Save</button>
-                </form>
 
-                </div> */}
-                <Form>
-        <Form.Field>
-          Selected value: <b>{this.state.value}</b>
-        </Form.Field>
-        <Form.Field>
-          <Checkbox
-            radio
-            label='Choose this'
-            name='checkboxRadioGroup'
-            value='this'
-            checked={this.state.value === 'this'}
-            onChange={this.handleChange}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Checkbox
-            radio
-            label='Or that'
-            name='checkboxRadioGroup'
-            value='that'
-            checked={this.state.value === 'that'}
-            onChange={this.handleChange}
-          />
-        </Form.Field>
-      </Form>
+                  {/*<Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" placeholder="Enter email" />
+                  </Form.Group> */}
+                  </Form.Row>
+
+                <Form.Row>
+                  <Form.Group as={Col}>
+                    <Checkbox
+                      radio
+                      label='Switch'
+                      name='checkboxRadioGroup'
+                      value='Switch'
+                      checked={this.state.value === 'Switch'}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
+
+                  <Form.Group as={Col}>
+                    <Form.Label>IP</Form.Label>
+                    <Form.Control type="ip" placeholder="192.168.0.0" />
+                  </Form.Group>
+
+                  <Form.Group as={Col}>
+                    <Form.Label>Time Interval</Form.Label>
+                    <Form.Control type="interval" placeholder="hh:mm:ss" />
+                  </Form.Group>
+
+                </Form.Row>
+
+                  <Form.Row>
+                  <Form.Group as={Col}>
+                    <Checkbox
+                      radio
+                      label='UIO8'
+                      name='checkboxRadioGroup'
+                      value='UIO8'
+                      checked={this.state.value === 'UIO8'}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
+
+
+                  <Form.Group as={Col} >
+                    <Form.Label>IP</Form.Label>
+                    <Form.Control type="ip" placeholder="192.168.0.0" />
+                  </Form.Group>
+
+                  <Form.Group as={Col}>
+                    <Form.Label>ON Time</Form.Label>
+                    <Form.Control type="ontime" placeholder="hh:mm:ss" />
+                  </Form.Group>
+                  <Form.Group as={Col}>
+                    <Form.Label>OFF Time</Form.Label>
+                    <Form.Control type="offtime" placeholder="hh:mm:ss" />
+                  </Form.Group>
+
+                  </Form.Row>
+            </Form>
+            <Button variant="primary" onClick={handleClick}>
+              Start
+            </Button>
+            <Button variant="outline-primary" onClick={handleClick}>
+              Cancel
+            </Button>
+
             </div>
             </Styles>
         );
