@@ -15,7 +15,7 @@ const Styles = styled.div`
         width: 100%;
         margin:0;
         border:0;
-        height:6vh;
+        height:55px;
         z-index:10;
     }
     .navbar-brand, .navbar-nav, .nav-link .navbar-collapse{
