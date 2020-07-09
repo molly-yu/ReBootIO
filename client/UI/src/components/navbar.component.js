@@ -73,6 +73,7 @@ export default class Navbar extends Component{
                     </ul> */}
                 
                 <Link to="/results" className="tab">Results</Link>
+                <Link to="/cameras" className="tab">Cameras</Link>
                 <Link to="/setup" className="tab">Setup</Link>
                 
                 </div>
