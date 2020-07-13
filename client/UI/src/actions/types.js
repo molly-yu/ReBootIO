@@ -1,0 +1,3 @@
+export const FETCH_CAMERAS = 'FETCH_CAMERAS';
+export const NEW_CAMERA = 'NEW_CAMERA';
+export const DELETE_CAMERA = 'DELETE_CAMERA';
