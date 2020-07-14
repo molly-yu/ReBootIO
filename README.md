@@ -16,6 +16,9 @@ As manual testing of hardware and software is quite cumbersome and time-consumin
 -	Application running as: 1 – Desktop application, 2 – Service with web server, 3 – Mobile app
 
 ## Development 
+To start server, 
+`
+cd server`, and `node server.js` or `json-server --watch cameras.json --port 3000`
 To build, 
 `
 cd client/UI`, and `npm start

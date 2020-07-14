@@ -1,32 +1,65 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+// server.js
+const jsonServer = require('json-server')
 
-const items = require('./routes/api/items');
+const server = jsonServer.create()
+const router = jsonServer.router('./cameras.json')
+const middlewares = jsonServer.defaults()
+const port = process.env.PORT || 3000;
+var db = require('./cameras.json')
 
-const app = express();
+server.use(jsonServer.bodyParser);
+server.use(middlewares)
 
-// Bodyparser middleware
-app.use(bodyParser.json());
+// Post request
+server.post('/cameras/post', (req, res) => {
+      let ip = req.body['ip'];
+      if (ip != null) {
+        let result = db.cameras.find(camera => {
+          return camera.ip == ip;
+        })
+  
+        if (result) {
+          let {id, ...camera} = result;
+          res.status(200).jsonp(camera);
+        } else {
+          res.status(400).jsonp({
+            error: "Bad IP Address"
+          });
+        }
+      } else {
+        res.status(400).jsonp({
+          error: "No valid IP Address"
+        });
+      }
+    
+  });
+   
+  server.get('/cameras', (req, res) => {
+    if (req.method === 'GET') {
+      let ip = req.query['ip'];
+      if (ip != null) {
+        let result = db.users.find(ip => {
+          return camera.ip == ip;
+        })
+  
+        if (result) {
+          let {id, ...camera} = result;
+          res.status(200).jsonp(camera);
+        } else {
+          res.status(400).jsonp({
+            error: "Bad IP Address"
+          });
+        }
+      } else {
+        res.status(400).jsonp({
+          error: "No valid IP Address"
+        });
+      }
+    }
+  });
+  
 
-// Use routes
-app.use('/api/items', items);
-
-//DB 
-require('dotenv').config();
-const port = process.env.PORT || 5000;
-
-
-app.use(cors()); // middleware
-app.use(express.json()); 
-
-const uri = process.env.ATLAS_URI; // database uri from mongoDB
-mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}
-);
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log("MongoDB database connection established successfully.");
+server.use(router)
+server.listen(port, () => {
+  console.log('JSON Server is running')
 })
-
-app.listen(port, () => console.log('Server started on port ${port}'));

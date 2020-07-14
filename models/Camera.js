@@ -8,6 +8,7 @@ const CameraSchema = new Schema({
         type: String,
         required:true
     },
+    user:{}
 });
 
 module.exports = Camera = mongoose.model('camera', CameraSchema);

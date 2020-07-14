@@ -4,5 +4,5 @@ import cameraReducer from './cameraReducer';
 
 
 export default combineReducers({
-    camera: cameraReducer
+    cameras: cameraReducer
 });

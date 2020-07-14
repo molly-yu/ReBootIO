@@ -13,7 +13,8 @@ width:100%;
  border:0;
  z-index: 5;
 `;
-  
+
+
 
 class Cameras extends Component{
     constructor(props){

@@ -1,0 +1,5 @@
+{
+    "cameras":[
+    {"ip": "1", "user": "user", "pass":"pass"}
+]
+}

@@ -1,4 +1,3 @@
-import uuid from 'react-uuid';
 import {FETCH_CAMERAS, NEW_CAMERA, DELETE_CAMERA} from '../actions/types';
 
 const initialState = {

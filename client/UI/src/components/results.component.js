@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
  import {fetchCameras} from '../actions/cameraActions';
 import styled from 'styled-components';
 import { Form, FormControl, InputGroup, Row, Col, Button, Table } from 'react-bootstrap';
+
 const Styles = styled.div`
 margin: 2em;
 height:100vh;
@@ -12,16 +13,16 @@ width:100%;
  z-index: 5;
 `;
 
-
 class Results extends Component{
 
-componentWillMount(){
+componentDidMount(){
     this.props.fetchCameras();
 }
   
-componentWillReceiveProps(nextProps){ // receive a new post
+componentDidUpdate(nextProps){ // receive a new post
     if(nextProps.newCamera){
-        this.props.cameras.unshift(nextProps.newCamera);
+        //this.props.cameras.unshift(nextProps.newCamera);
+        
     }
 }
 
@@ -59,12 +60,12 @@ componentWillReceiveProps(nextProps){ // receive a new post
 
 Results.propTypes = {
     fetchCameras: PropTypes.func.isRequired,
-    cameras: PropTypes.array.isRequired,
+     cameras: PropTypes.array.isRequired,
     newCamera: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-    cameras:  state.cameras.items,
+     cameras:  state.cameras.items,
     newCamera: state.cameras.item
 });
 
