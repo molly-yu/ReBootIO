@@ -1,20 +1,25 @@
 import { FETCH_CAMERAS, NEW_CAMERA, DELETE_CAMERA } from './types';
 import axios from 'axios';
-import data from '../../../../server/cameras.json';
 
-export const fetchCameras = () => {
-    console.log('fetched');
-    return {
+export const fetchCameras = () => dispatch => {
+    console.log('fetched');  
+    axios.get('http://localhost:3000/cameras')
+    .then(res => dispatch({
         type: FETCH_CAMERAS,
-        payload: cameras
-    };
+        payload: res.data
+        })
+    )
+    .catch(function (error) {
+        console.log(error);
+    });
 };
 
-export const createCamera = postData => {
-    return{
+export const createCamera = camera => dispatch => {
+    axios.post('http://localhost:3000/cameras', camera).then(res => dispatch({
         type: NEW_CAMERA,
-        payload: camera
-    };
+        payload: res.data
+        })
+      );
 };
 
 // export const deleteCamera = id  => {

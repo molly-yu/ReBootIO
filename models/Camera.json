@@ -1,0 +1,12 @@
+{
+
+      "ip": {
+        "type": "string"
+      },
+      "user": {
+          "type": "string"
+        },
+        "pass": {
+          "type": "string"
+        }
+  }

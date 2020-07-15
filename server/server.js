@@ -5,59 +5,30 @@ const server = jsonServer.create()
 const router = jsonServer.router('./cameras.json')
 const middlewares = jsonServer.defaults()
 const port = process.env.PORT || 3000;
-var db = require('./cameras.json')
-
+//  const cameras = require('../routes/api/cameras');
 server.use(jsonServer.bodyParser);
 server.use(middlewares)
+// server.use('/cameras', cameras)
 
-// Post request
-server.post('/cameras/post', (req, res) => {
-      let ip = req.body['ip'];
-      if (ip != null) {
-        let result = db.cameras.find(camera => {
-          return camera.ip == ip;
-        })
-  
-        if (result) {
-          let {id, ...camera} = result;
-          res.status(200).jsonp(camera);
-        } else {
-          res.status(400).jsonp({
-            error: "Bad IP Address"
-          });
-        }
-      } else {
-        res.status(400).jsonp({
-          error: "No valid IP Address"
-        });
-      }
-    
-  });
-   
-  server.get('/cameras', (req, res) => {
-    if (req.method === 'GET') {
-      let ip = req.query['ip'];
-      if (ip != null) {
-        let result = db.users.find(ip => {
-          return camera.ip == ip;
-        })
-  
-        if (result) {
-          let {id, ...camera} = result;
-          res.status(200).jsonp(camera);
-        } else {
-          res.status(400).jsonp({
-            error: "Bad IP Address"
-          });
-        }
-      } else {
-        res.status(400).jsonp({
-          error: "No valid IP Address"
-        });
-      }
-    }
-  });
-  
+// server.get('/cameras', (req, res) => {
+//   Camera.find()
+//   .then(cameras => res.json(cameras))
+//   .catch(err => res.status(400).json('Error: ' + err));
+// });
+
+// @route POST api/cameras
+// @desc Create A Post
+// @access Public
+
+// server.post('/cameras', (req, res) => {
+//   const newCamera = new Camera({
+//       ip: req.body.ip,
+//       user: req.body.user,
+//       pass: req.body.pass
+//   });
+//   newCamera.save().then(camera => res.json(camera)).catch(err => res.status(400).json('Error: ' + err));
+// });
+
 
 server.use(router)
 server.listen(port, () => {

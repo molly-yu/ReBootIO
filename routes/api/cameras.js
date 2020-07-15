@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = jsonServer.router('../../server/cameras.json')
 
 // Camera Model
 const Camera = require('../../server/cameras.json');
@@ -15,7 +14,7 @@ router.get('/cameras', (req, res) => {
 // @route POST api/cameras
 // @desc Create A Post
 // @access Public
-router.post('/cameras', (req, res) => {
+router.post('/cameras/post/', (req, res) => {
     const newCamera = new Camera({
         ip: req.body.ip,
         user: req.body.user,
@@ -27,11 +26,11 @@ router.post('/cameras', (req, res) => {
 // @route DELETE api/cameras/:id
 // @desc Delete A Post
 // @access Public
-router.delete('/cameras/:id', (req, res) => {
-    Camera.findById(req.params.id)
-    .then(camera => camera.remove().then(() => res.json({success:true})))
-    .catch(err => res.status(404).json({success:false}));
-});
+// router.delete('/cameras/:id', (req, res) => {
+//     Camera.findById(req.params.id)
+//     .then(camera => camera.remove().then(() => res.json({success:true})))
+//     .catch(err => res.status(404).json({success:false}));
+// });
 
 
 module.exports = router;

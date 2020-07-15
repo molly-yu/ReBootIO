@@ -10,12 +10,12 @@ export default function(state = initialState, action){
         case FETCH_CAMERAS:
             return {
                 ...state,
-                items: action.payload
+                 items: action.payload
             };
         case NEW_CAMERA:
             return {
                 ...state,
-                item: action.payload
+                 item: action.payload
 
             };
         default:

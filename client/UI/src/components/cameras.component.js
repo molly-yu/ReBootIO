@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import {connect } from 'react-redux';
 import styled from 'styled-components';
@@ -13,7 +12,6 @@ width:100%;
  border:0;
  z-index: 5;
 `;
-
 
 
 class Cameras extends Component{
@@ -37,14 +35,13 @@ class Cameras extends Component{
         e.preventDefault();
 
         const camera = {
-            ip: this.state.ip,
+            ip: '192.168.0.'+this.state.ip,
             user: this.state.user,
             pass: this.state.pass
         };
         this.props.createCamera(camera); // replaces fetch with createPost action
         
     }
-
 
     render(){
         return(
