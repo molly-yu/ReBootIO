@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import Navbar from "./components/navbar.component";
 import {Switch, BrowserRouter as Router, Route} from "react-router-dom";
+
+import {Provider} from 'react-redux';
+import store from './store';
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import Setup from "./components/setup.component";
 import Results from "./components/results.component";
@@ -10,6 +14,7 @@ import './App.css';
 export default class App extends Component {
     render() {
         return (
+            <Provider store={store}>
             <div>
             <Navbar/>
             <Switch> {/* The Switch decides which component to show based on the current URL.*/}
@@ -18,6 +23,7 @@ export default class App extends Component {
                 <Route exact path='/cameras' component={Cameras}></Route>
             </Switch>
             </div>
+            </Provider>
         );
     }
 }

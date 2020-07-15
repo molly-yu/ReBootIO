@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+ import {fetchCameras} from '../actions/cameraActions';
 import styled from 'styled-components';
 import { Form, FormControl, InputGroup, Row, Col, Button, Table } from 'react-bootstrap';
+
 const Styles = styled.div`
 margin: 2em;
 height:100vh;
@@ -11,14 +13,28 @@ width:100%;
  z-index: 5;
 `;
 
-function handleClick(e) {
-    e.preventDefault();
-    console.log('The link was clicked.');
-  }
-  
+class Results extends Component{
 
-export default class Results extends Component{
+componentDidMount(){
+    this.props.fetchCameras();
+}
+  
+componentDidUpdate(nextProps){ // receive a new post
+    if(nextProps.newCamera){
+        //this.props.cameras.unshift(nextProps.newCamera);
+        
+    }
+}
+
+
     render(){
+        const cameraItems= this.props.cameras.map(camera => 
+            <tr>
+                <td>{camera.ip}</td>
+                <td>{camera.user}</td>
+                <td>{camera.pass}</td>
+            </tr>);
+
         return(
             <Styles>
             <div className="Results" id="results">
@@ -26,25 +42,13 @@ export default class Results extends Component{
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                            <th>#</th>
                             <th>IP Address</th>
                             <th>Ping</th>
                             <th>Video Loss</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            <td>1</td>
-                            <td>192.0.1</td>
-                            <td>Yes</td>
-                            <td>No</td>
-                            </tr>
-                            <tr>
-                            <td>2</td>
-                            <td>192.0.2</td>
-                            <td>Yes</td>
-                            <td>No</td>
-                            </tr>
+                            {cameraItems}
                         </tbody>
                         </Table>
             </div>
@@ -52,3 +56,17 @@ export default class Results extends Component{
         )
     }
 }
+
+
+Results.propTypes = {
+    fetchCameras: PropTypes.func.isRequired,
+     cameras: PropTypes.array.isRequired,
+    newCamera: PropTypes.object
+}
+
+const mapStateToProps = state => ({
+     cameras:  state.cameras.items,
+    newCamera: state.cameras.item
+});
+
+export default connect (mapStateToProps, {fetchCameras})(Results);

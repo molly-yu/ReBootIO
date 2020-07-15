@@ -1,5 +1,5 @@
 {
-  "name": "ReBootUI",
+  "name": "ReBootIO",
   "version": "1.0.0",
   "description": "Testing application",
   "main": "index.js",
@@ -16,7 +16,10 @@
     "react-bootstrap": "^1.1.1",
     "react-datetime-picker": "^3.0.2",
     "react-dom": "16.13.1",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.88.2",
     "styled-components": "^5.1.1"
   },
