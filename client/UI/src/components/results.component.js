@@ -18,14 +18,6 @@ class Results extends Component{
 componentDidMount(){
     this.props.fetchCameras();
 }
-  
-componentDidUpdate(nextProps){ // receive a new post
-    if(nextProps.newCamera){
-        //this.props.cameras.unshift(nextProps.newCamera);
-        
-    }
-}
-
 
     render(){
         const cameraItems= this.props.cameras.map(camera => 
@@ -43,6 +35,8 @@ componentDidUpdate(nextProps){ // receive a new post
                         <thead>
                             <tr>
                             <th>IP Address</th>
+                            <th>Username</th>
+                            <th>Password</th>
                             <th>Ping</th>
                             <th>Video Loss</th>
                             </tr>

@@ -1,0 +1,34 @@
+{
+  "cameras": [
+    {
+      "ip": "192.168.0.1",
+      "user": "hello",
+      "pass": "bye",
+      "id": 3
+    },
+    {
+      "ip": "192.168.0.2",
+      "user": "1",
+      "pass": "2",
+      "id": 4
+    },
+    {
+      "ip": "192.168.0.1",
+      "user": "2",
+      "pass": "3",
+      "id": 5
+    }
+  ],
+  "setup": {
+    "status": "noReboot",
+    "date": null,
+    "currentReboots": 0,
+    "maxReboots": 0,
+    "switchIP": "",
+    "UIO8IP": "",
+    "onTime": 0,
+    "offTime": 0,
+    "email": "",
+    "isPassed": true
+  }
+}

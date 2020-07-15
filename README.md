@@ -18,7 +18,7 @@ As manual testing of hardware and software is quite cumbersome and time-consumin
 ## Development 
 To start server, 
 `
-cd server`, and `node server.js` or `json-server --watch cameras.json --port 3000`
+cd server`, and `node server.js` or `json-server --watch db.json --port 3000`
 To build, 
 `
 cd client/UI`, and `npm start
