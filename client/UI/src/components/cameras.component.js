@@ -35,7 +35,7 @@ class Cameras extends Component{
         e.preventDefault();
 
         const camera = {
-            ip: '192.168.0.'+this.state.ip,
+            ip: '192.0.'+this.state.ip,
             user: this.state.user,
             pass: this.state.pass
         };
@@ -44,6 +44,7 @@ class Cameras extends Component{
     }
 
     render(){
+
         return(
             <Styles>
             <div className="Cameras" id="cameras">

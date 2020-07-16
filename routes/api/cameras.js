@@ -1,7 +1,7 @@
-const router = jsonServer.router('../../server/cameras.json')
+const router = jsonServer.router('../../server/db.json')
 
 // Camera Model
-const Camera = require('../../server/cameras.json');
+const Camera = require('../../server/db.json');
 
 // @route GET api/cameras
 // @desc Get all cameras
