@@ -1,8 +1,7 @@
-import {FETCH_SETUP, UPDATE_SETUP, SAVE_OPTION} from '../actions/types';
+import {FETCH_SETUP, UPDATE_SETUP} from '../actions/types';
 
 const initialState = {
-    item: {},
-    value:{}
+    item: {}
 };
 
 export default function(state = initialState, action){
@@ -17,11 +16,7 @@ export default function(state = initialState, action){
                 ...state,
                  item:action.payload
             };
-            case SAVE_OPTION:
-            return {
-                ...state,
-                 value:action.data
-            };
+
         default:
             return state;
     }

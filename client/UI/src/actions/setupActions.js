@@ -12,16 +12,9 @@ export const fetchSetup = () => dispatch => {
 };
  
 export const updateSetup = setup => dispatch => {
-    axios.put('http://localhost:3000/setup', camera).then(res => dispatch({
+    axios.put('http://localhost:3000/setup', setup).then(res => dispatch({
         type: UPDATE_SETUP,
         payload: res.data
         })
       );
 };
-
-export const saveValue = data => dispatch => {
-    return{
-        type: SAVE_OPTION,
-        data
-    };
-}

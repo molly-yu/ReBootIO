@@ -4,4 +4,3 @@ export const DELETE_CAMERA = 'DELETE_CAMERA';
 
 export const UPDATE_SETUP = 'UPDATE_SETUP';
 export const FETCH_SETUP = 'FETCH_SETUP';
-export const SAvE_OPTION = 'SAVE_OPTION';

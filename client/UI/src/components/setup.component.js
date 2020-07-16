@@ -10,16 +10,33 @@ import DateTimePicker from 'react-datetime-picker';
 
 const Styles = styled.div`
   margin: 2em;
+
+   .actions{
+    padding-top: 2em;
+  }
 `;
 
 class Setup extends Component{
-  // constructor(props){
-  //   super(props);
-
-  //   this.onChange=this.onChange.bind(this);
-  //   this.handleChange=this.handleChange.bind(this);
-  //    this.onSubmit= this.onSubmit.bind(this);
-  // }
+  constructor(props){
+    super(props);
+    this.state = {
+      status:'noReboot',
+      date: new Date(),
+      currentReboots: 0,
+      maxReboots: 0,
+      switchIP: '',
+      UIO8IP: '',
+      onTime:0,
+      offTime:0,
+      email:'',
+      isPassed: true,
+    }
+    this.onChange=this.onChange.bind(this);
+    this.handleChange=this.handleChange.bind(this);
+     this.onSubmit= this.onSubmit.bind(this);
+     this.onReset= this.onReset.bind(this);
+     this.onStart= this.onStart.bind(this);
+  }
   
     componentDidMount(){
       this.props.fetchSetup();
@@ -32,17 +49,39 @@ class Setup extends Component{
     // }
 
 
-    // handleChange = date => this.setState({ date })
+    handleChange = date => this.setState({ date })
     onChange(e) {
-      //this.setState({[e.target.name]: e.target.value}); // set the state of the particular component
-      let data = {}
-      data.name = e.target.name
-      data.value = e.target.value
-      this.props.saveValue(data)
+      this.setState({[e.target.name]: e.target.value}); // set the state of the particular component
+      // let data = {}
+      // data.name = e.target.name
+      // data.value = e.target.value
+      // this.props.saveValue(data)
     }
 
     onSubmit(e){
       e.preventDefault();
+      const newSetup =
+        {
+          status:'noReboot',
+          date: this.state.date,
+          currentReboots: this.state.currentReboots,
+          maxReboots: this.state.maxReboots,
+          switchIP: this.state.switchIP,
+          UIO8IP: this.state.UIO8IP,
+          onTime:this.state.onTime,
+          offTime:this.state.offTime,
+          email:this.state.email,
+          isPassed: this.state.isPassed,
+      };
+      this.props.updateSetup(newSetup); // replaces fetch with createPost action
+  }
+
+  onReset(e){
+    this.setState({status:'noReboot'})
+    this.onSubmit(e);
+  }
+
+  onStart(e){
       const newSetup =
         {
           status:this.state.status,
@@ -57,7 +96,6 @@ class Setup extends Component{
           isPassed: this.state.isPassed,
       };
       this.props.updateSetup(newSetup); // replaces fetch with createPost action
-      
   }
 
     render() {
@@ -69,7 +107,7 @@ class Setup extends Component{
                 <Form onSubmit={this.onSubmit}> 
                 
                   <Form.Group >
-                    Selected value: <b>{this.props.setup.status}</b>
+                    Selected value: <b>{this.state.status}</b>
                   </Form.Group>
                   <Form.Row >
                   <Form.Group as={Col}>
@@ -78,7 +116,7 @@ class Setup extends Component{
                       label='SRX-Pro'
                       name='status'
                       value= 'SRX-Pro'
-                      checked={this.props.setup.status === 'SRX-Pro'}
+                      checked={this.state.status === 'SRX-Pro'}
                       onChange={this.onChange}
                     />
                   </Form.Group>
@@ -116,7 +154,7 @@ class Setup extends Component{
 
                   <Form.Group as={Col}>
                     <Form.Label>IP</Form.Label>
-                    <Form.Control name="ip" onChange={this.onChange} value={this.state.switchIP} defaultValue={this.props.setup.switchIP} placeholder="192.168.0.0" />
+                    <Form.Control name="switchIP" onChange={this.onChange} value={this.state.switchIP} placeholder="192.168.0.0" />
                   </Form.Group>
 
                   <Form.Group as={Col}>
@@ -141,7 +179,7 @@ class Setup extends Component{
 
                   <Form.Group as={Col} >
                     <Form.Label>IP</Form.Label>
-                    <Form.Control name="ip" onChange={this.onChange} value={this.state.UIO8IP} placeholder="192.168.0.0" />
+                    <Form.Control name="UIO8IP" onChange={this.onChange} value={this.state.UIO8IP} placeholder="192.168.0.0" />
                   </Form.Group>
 
                   <Form.Group as={Col}>
@@ -163,13 +201,18 @@ class Setup extends Component{
                   </Form.Group>
                 </Form.Row>
                 <Button variant="primary" type="submit">
-                  Start
-                </Button>
-                <Button variant="outline-primary" type="reset">
-                  Cancel
+                  Save
                 </Button>
 
             </Form>
+            <div className="actions">
+              <Button variant="primary" type="button" onClick={this.onStart} >
+                  Start
+                </Button>
+                <Button variant="outline-primary" type="button" onClick={this.onReset}>
+                  Cancel
+                </Button>
+            </div>
             
             </div>
             </Styles>
@@ -185,7 +228,7 @@ Setup.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  setup: state.setup
+  setup: state.setup.item
 });
 
 export default connect (mapStateToProps, {fetchSetup, updateSetup})(Setup);
