@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import {Row, Col, Form, Button} from 'react-bootstrap';
 import { Checkbox } from 'semantic-ui-react';
 import DateTimePicker from 'react-datetime-picker';
+import moment from 'moment-timezone';
+moment.tz.setDefault("America/New_York");
 
 const Styles = styled.div`
   margin: 2em;
@@ -20,16 +22,16 @@ class Setup extends Component{
   constructor(props){
     super(props);
     this.state = {
-      status:'noReboot',
-      date: new Date(),
-      currentReboots: 0,
-      maxReboots: 0,
-      switchIP: '',
-      UIO8IP: '',
-      onTime:0,
-      offTime:0,
-      email:'',
-      isPassed: true,
+      status: this.props.setup.status,
+      date: this.props.setup.date,
+      currentReboots: this.props.setup.currentReboots,
+      maxReboots: this.props.setup.maxReboots,
+      switchIP: this.props.setup.switchIP,
+      UIO8IP: this.props.setup.UIO8IP,
+      onTime:this.props.setup.onTime,
+      offTime:this.props.setup.offTime,
+      email:this.props.setup.email,
+      isPassed:this.props.setup.isPassed,
     }
     this.onChange=this.onChange.bind(this);
     this.handleChange=this.handleChange.bind(this);
@@ -41,13 +43,6 @@ class Setup extends Component{
     componentDidMount(){
       this.props.fetchSetup();
     }
-      
-    // componentDidUpdate(nextProps){ // receive a new post
-    //   if(nextProps.setup){
-            
-    //   }
-    // }
-
 
     handleChange = date => this.setState({ date })
     onChange(e) {
@@ -58,7 +53,7 @@ class Setup extends Component{
       // this.props.saveValue(data)
     }
 
-    onSubmit(e){
+    onSubmit(e){ // save form except status (no action yet)
       e.preventDefault();
       const newSetup =
         {
@@ -76,12 +71,12 @@ class Setup extends Component{
       this.props.updateSetup(newSetup); // replaces fetch with createPost action
   }
 
-  onReset(e){
+  onReset(e){ // sets status to no action
     this.setState({status:'noReboot'})
     this.onSubmit(e);
   }
 
-  onStart(e){
+  onStart(e){ // starting 
       const newSetup =
         {
           status:this.state.status,

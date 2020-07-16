@@ -21,10 +21,10 @@
   ],
   "setup": {
     "status": "noReboot",
-    "date": "2020-07-16T14:57:31.099Z",
+    "date": null,
     "currentReboots": 0,
     "maxReboots": 0,
-    "switchIP": "0",
+    "switchIP": "",
     "UIO8IP": "",
     "onTime": 0,
     "offTime": 0,
