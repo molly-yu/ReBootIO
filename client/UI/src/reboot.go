@@ -26,6 +26,8 @@ type setup struct { // struct defining state of setup
 	CurrentReboots int    `json:"currentReboots"`
 	MaxReboots     int    `json:"maxReboots"`
 	SwitchIP       string `json:"switchIP"`
+	User           string `json:"user"`
+	Pass           string `json:"pass"`
 	UIO8IP         string `json:"UIO8IP"`
 	OnTime         int    `json:"onTime"`
 	OffTime        int    `json:"offTime"`
@@ -92,54 +94,62 @@ func getInfo() setup { // retrieves setup info from server and returns setup
 // __________________________________________________________________________main________________________________________________________________
 func main() {
 	setup := getInfo()
-	fmt.Println("Status: ", setup.Status)
-	fmt.Println("currentReboots: ", setup.CurrentReboots)
 
 	dt := time.Now()
 	input := setup.Status
-	if input == "SRX-Pro" { // reset srx-pro through date/time change
-		// get admin permissions if not administrator
-		if !amAdmin() {
-			runMeElevated()
+	cur := setup.CurrentReboots
+	max := setup.MaxReboots
+	isPassed := setup.IsPassed
+
+	for cur < max {
+		fmt.Println("Status: ", input)
+		fmt.Println("currentReboots: ", cur)
+		fmt.Println("maxReboots: ", max)
+		fmt.Println("isPassed: ", isPassed)
+		if isPassed {
+
+			if input == "SRX-Pro" { // reset srx-pro through date/time change
+				// get admin permissions if not administrator
+				if !amAdmin() {
+					runMeElevated()
+				}
+				time.Sleep(10 * time.Second)
+
+				tm := setup.Date
+
+				time.Sleep(10 * time.Second) // we can replace this with time interval later on
+
+				//dt := time.Date(2020, 06, 17, 20, 34, 58, 65, time.UTC) // yyyy, mm, dd, hh, min, ss, ms
+				dt, _ = time.Parse("2006-01-02T15:04:05Z", tm)
+				fmt.Println(dt)
+
+				err1 := SetSystemDate(dt)
+				if err1 != nil {
+					fmt.Printf("Error: %s", err1.Error())
+				}
+				err2 := SetSystemTime(dt)
+				if err2 != nil {
+					fmt.Printf("Error: %s", err2.Error())
+				}
+				// With short weekday (Mon)
+				// fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
+
+			} else if input == "Switch" { // reset switches through http request
+
+				ip := setup.SwitchIP
+				user := setup.User
+				pass := setup.Pass
+
+				rebootSwitch(ip, user, pass)
+				// err := rebootSwitch(ip, user, pass)
+				// if err != nil {
+				// 	fmt.Printf("Error: %s", err.Error())
+				// }
+			} else if input == "UIO8" {
+
+			}
 		}
-		time.Sleep(10 * time.Second)
-
-		tm := setup.Date
-
-		//dt := time.Date(2020, 06, 17, 20, 34, 58, 65, time.UTC) // yyyy, mm, dd, hh, min, ss, ms
-		dt, _ = time.Parse("2006-01-02T15:04:05Z", tm)
-		fmt.Println(dt)
-
-		err1 := SetSystemDate(dt)
-		if err1 != nil {
-			fmt.Printf("Error: %s", err1.Error())
-		}
-		err2 := SetSystemTime(dt)
-		if err2 != nil {
-			fmt.Printf("Error: %s", err2.Error())
-		}
-		// With short weekday (Mon)
-		// fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
-
-	} else if input == "Switch" { // reset switches through http request
-		var ip string
-		fmt.Println("Enter switch IP address:")
-		fmt.Scanln(&ip)
-
-		var user string
-		fmt.Println("Enter username:")
-		fmt.Scanln(&user)
-
-		var pass string
-		fmt.Println("Enter password:")
-		fmt.Scanln(&pass)
-
-		rebootSwitch(ip, user, pass)
-		// err := rebootSwitch(ip, user, pass)
-		// if err != nil {
-		// 	fmt.Printf("Error: %s", err.Error())
-		// }
-	} else if input == "UIO8" {
+		cur++
 
 	}
 
@@ -210,7 +220,6 @@ func rebootSwitch(ip string, user string, pass string) { // Reboot switches thro
 	res.Body.Close()
 
 }
-
 
 //______________________________________________________________________admin______________________________________________________________________________________
 // get admin permissions

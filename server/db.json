@@ -20,15 +20,13 @@
     }
   ],
   "setup": {
-    "status": "noReboot",
-    "date": null,
+    "status": "SRX-Pro",
+    "date": "2020-07-20T04:00:00.000Z",
     "currentReboots": 0,
-    "maxReboots": 0,
-    "switchIP": "",
-    "UIO8IP": "",
-    "onTime": 0,
-    "offTime": 0,
-    "email": "",
+    "maxReboots": 5,
+    "switchIP": "192.0.0.13",
+    "user": "i3admin",
+    "pass": "i3admin",
     "isPassed": true
   }
 }
