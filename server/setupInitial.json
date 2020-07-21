@@ -1,0 +1,12 @@
+{
+    "status":"noReboot",
+    "date": null,
+    "currentReboots": 0,
+    "maxReboots": 0,
+    "switchIP": "",
+    "UIO8IP": "",
+    "onTime":0,
+    "offTime":0,
+    "email":"",
+    "isPassed":true
+  }

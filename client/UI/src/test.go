@@ -1,38 +1,106 @@
-package server
+package test
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
 
-	//"io/ioutil"
-
 	"golang.org/x/sys/windows"
+	//"io/ioutil"
 )
 
-func reboot() {
+type setup struct {
+	Status         string `json:"status"` // must be upper case to be exported
+	Date           string `json:"date"`
+	CurrentReboots int    `json:"currentReboots"`
+	MaxReboots     int    `json:"maxReboots"`
+	SwitchIP       string `json:"switchIP"`
+	UIO8IP         string `json:"UIO8IP"`
+	OnTime         int    `json:"onTime"`
+	OffTime        int    `json:"offTime"`
+	Email          string `json:"email"`
+	IsPassed       bool   `json:"isPassed"`
+}
 
-	var input string
-	fmt.Println("Reset: 1 - SRX-Pro, 2 - Switches, 3 - UIO8")
-	fmt.Scanln(&input)
+func getInfo() setup {
+	url := "http://localhost:3000/setup"
+	fmt.Println("URL:>", url)
+
+	client := http.Client{
+		Timeout: time.Second * 3, // Timeout after 3 seconds
+	}
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	req.Header.Set("Setup", "Getting Setup")
+
+	res, getErr := client.Do(req)
+	if getErr != nil {
+		log.Fatal(getErr)
+	}
+
+	if res.Body != nil {
+		defer res.Body.Close()
+	}
+
+	body, readErr := ioutil.ReadAll(res.Body)
+	if readErr != nil {
+		log.Fatal(readErr)
+	}
+
+	setup1 := setup{}
+	jsonErr := json.Unmarshal([]byte(body), &setup1)
+	if jsonErr != nil {
+		log.Fatal(jsonErr)
+	}
+
+	// var jsonStr = []byte(`{"title":"Buy cheese and bread for breakfast."}`)
+	// req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	// req.Header.Set("X-Custom-Header", "myvalue")
+	// req.Header.Set("Content-Type", "application/json")
+
+	// client := &http.Client{}
+	// resp, err := client.Do(req)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer resp.Body.Close()
+
+	// fmt.Println("response Status:", resp.Status)
+	// fmt.Println("response Headers:", resp.Header)
+	// body, _ := ioutil.ReadAll(resp.Body)
+	// fmt.Println("response Body:", string(body))
+
+	return setup1
+}
+
+func main() {
+	setup := getInfo()
+	fmt.Println("Status: ", setup.Status)
+	fmt.Println("currentReboots: ", setup.CurrentReboots)
 
 	dt := time.Now()
-
-	if input == "1" { // reset srx-pro through date/time change
+	input := setup.Status
+	if input == "SRX-Pro" { // reset srx-pro through date/time change
 		// get admin permissions if not administrator
 		if !amAdmin() {
 			runMeElevated()
 		}
 		time.Sleep(10 * time.Second)
 
-		var tm string
-		fmt.Println("Enter restart date and time in format 2006-01-02T15:04:05Z:")
-		fmt.Scanln(&tm)
+		tm := setup.Date
 
 		//dt := time.Date(2020, 06, 17, 20, 34, 58, 65, time.UTC) // yyyy, mm, dd, hh, min, ss, ms
 		dt, _ = time.Parse("2006-01-02T15:04:05Z", tm)
@@ -47,30 +115,8 @@ func reboot() {
 			fmt.Printf("Error: %s", err2.Error())
 		}
 		// With short weekday (Mon)
-		fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
-
-	} else if input == "2" { // reset switches through http request
-		var ip string
-		fmt.Println("Enter switch IP address:")
-		fmt.Scanln(&ip)
-
-		var user string
-		fmt.Println("Enter username:")
-		fmt.Scanln(&user)
-
-		var pass string
-		fmt.Println("Enter password:")
-		fmt.Scanln(&pass)
-
-		rebootSwitch(ip, user, pass)
-		// err := rebootSwitch(ip, user, pass)
-		// if err != nil {
-		// 	fmt.Printf("Error: %s", err.Error())
-		// }
-	} else if input == "3" {
-		
+		// fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
 	}
-
 }
 
 // Set the system date to desired reboot date
@@ -99,6 +145,22 @@ func SetSystemDate(newTime time.Time) error {
 // Set the system time to desired reboot time
 func SetSystemTime(newTime time.Time) error {
 	timeString := newTime.Format("15:04:05.00")
+	a := []rune(timeString)
+	hour := string(a[0:2])
+	rest := string(a[len(a)-9 : len(a)])
+	i, err := strconv.Atoi(hour)
+	if err != nil {
+		fmt.Printf("Error: %s", err.Error())
+	}
+	if i >= 4 {
+		i -= 4
+	} else {
+		i = i + 20
+	}
+	hour = strconv.Itoa(i)
+
+	timeString = hour + rest
+
 	fmt.Printf("Setting system time to: %s\n", timeString)
 	args := []string{"/C", "time", timeString}
 	cmd := exec.Command("cmd.exe", args...)
@@ -107,6 +169,7 @@ func SetSystemTime(newTime time.Time) error {
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
 	return cmd.Run()
+
 }
 
 // Reboot switches through http

@@ -29,7 +29,7 @@ func main() {
 	}
 
 	// Open dev tools must be used after window.Start
-	// window.OpenDevTools()
+	 window.OpenDevTools()
 
 	// Wait for the application to close
 	<-done
