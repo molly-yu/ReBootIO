@@ -71,24 +71,37 @@ func getInfo() setup { // retrieves setup info from server and returns setup
 		log.Fatal(jsonErr)
 	}
 
-	// var jsonStr = []byte(`{"title":"Buy cheese and bread for breakfast."}`)
-	// req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	// req.Header.Set("X-Custom-Header", "myvalue")
-	// req.Header.Set("Content-Type", "application/json")
-
-	// client := &http.Client{}
-	// resp, err := client.Do(req)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer resp.Body.Close()
-
-	// fmt.Println("response Status:", resp.Status)
-	// fmt.Println("response Headers:", resp.Header)
-	// body, _ := ioutil.ReadAll(resp.Body)
-	// fmt.Println("response Body:", string(body))
-
 	return setup1
+}
+
+// ____________________________________________________________________postInfo____________________________________________________________________
+func postInfo(Setup setup) {
+	url := "http://localhost:3000/setup"
+	fmt.Println("URL:>", url)
+
+	client := http.Client{
+		Timeout: time.Second * 3, // Timeout after 3 seconds
+	}
+
+	jsonStr, _ := json.MarshalIndent(&Setup, "", "	")
+
+	// var buffer bytes.Buffer
+	// json.NewEncoder(&buffer).Encode(&Setup)
+
+	// var jsonStr = []byte(`{"title":"Buy cheese and bread for breakfast."}`)
+	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Header", "value")
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("response Status:", resp.Status)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
 }
 
 // __________________________________________________________________________main________________________________________________________________
@@ -101,7 +114,7 @@ func main() {
 	max := setup.MaxReboots
 	isPassed := setup.IsPassed
 
-	for cur < max {
+	for setup.CurrentReboots < setup.MaxReboots {
 		fmt.Println("Status: ", input)
 		fmt.Println("currentReboots: ", cur)
 		fmt.Println("maxReboots: ", max)
@@ -149,7 +162,12 @@ func main() {
 
 			}
 		}
-		cur++
+		setup.CurrentReboots++
+		if setup.CurrentReboots == setup.MaxReboots {
+			setup.Status = "noReboot"
+		}
+		// also call results function here and redefine isPassed
+		postInfo(setup)
 
 	}
 
