@@ -35,7 +35,7 @@ class Cameras extends Component{
         e.preventDefault();
 
         const camera = {
-            ip: '192.0.'+this.state.ip,
+            ip: this.state.ip,
             user: this.state.user,
             pass: this.state.pass
         };
@@ -54,11 +54,11 @@ class Cameras extends Component{
                         <Col>
                         <Form.Label>Camera IP </Form.Label>
                         <InputGroup className="mb-3">
-                            <InputGroup.Prepend >
+                            {/* <InputGroup.Prepend >
                             <InputGroup.Text id="basic-addon3">
                                 192.168.0.
                             </InputGroup.Text>
-                            </InputGroup.Prepend>
+                            </InputGroup.Prepend> */}
                             <FormControl name="ip" onChange={this.onChange} value={this.state.ip} aria-describedby="basic-addon3" />
                         </InputGroup>
                         </Col>
