@@ -20,7 +20,7 @@ export default function(state = initialState, action){
         case DELETE_CAMERA:
         return {
             ...state,
-            items: state.items.filter(item => item._id !== action.payload)
+            items: state.items.filter(item1 => item1.id !== action.payload)
 
             };
         default:
