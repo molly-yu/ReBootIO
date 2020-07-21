@@ -16,6 +16,11 @@ export default function(state = initialState, action){
             return {
                 ...state,
                  item: action.payload
+            };
+        case DELETE_CAMERA:
+        return {
+            ...state,
+            items: state.items.filter(item => item._id !== action.payload)
 
             };
         default:

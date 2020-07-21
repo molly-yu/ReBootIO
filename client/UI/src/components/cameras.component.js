@@ -21,6 +21,8 @@ class Cameras extends Component{
             ip:'',
             user:'',
             pass:'',
+            ping:true, // passed by default
+            video: true
         }
         this.onChange=this.onChange.bind(this);
         this.onSubmit= this.onSubmit.bind(this);
@@ -37,7 +39,9 @@ class Cameras extends Component{
         const camera = {
             ip: this.state.ip,
             user: this.state.user,
-            pass: this.state.pass
+            pass: this.state.pass,
+            ping: this.state.ping,
+            video: this.state.video
         };
         this.props.createCamera(camera); // replaces fetch with createPost action
         

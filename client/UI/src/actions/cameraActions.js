@@ -20,12 +20,13 @@ export const createCamera = camera => dispatch => {
         payload: res.data
         })
       );
+
 };
 
-// export const deleteCamera = id  => {
-//     console.log('posted');
-//     dispatch({
-//     type: DELETE_CAMERA,
-//     payload: id
-//     })
-// };
+export const deleteCamera = id => dispatch => {
+    axios.delete('http://localhost:3000/cameras/${id}').then(res => dispatch({
+        type: DELETE_CAMERA,
+        payload: id
+        })
+      );
+    };

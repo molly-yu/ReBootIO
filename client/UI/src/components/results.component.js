@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
- import {fetchCameras} from '../actions/cameraActions';
+ import {fetchCameras, deleteCamera} from '../actions/cameraActions';
 import styled from 'styled-components';
 import { Form, FormControl, InputGroup, Row, Col, Button, Table } from 'react-bootstrap';
 
@@ -14,10 +14,19 @@ width:100%;
 `;
 
 class Results extends Component{
+    constructor(props){
+        super(props);
+        this.onDeleteClick = this.onDeleteClick.bind(this)
+    }
+
 
 componentDidMount(){
     this.props.fetchCameras();
 }
+
+onDeleteClick (id) {
+    this.props.deleteCamera(id);
+};
 
     render(){
         const cameraItems= this.props.cameras.map(camera => 
@@ -25,6 +34,9 @@ componentDidMount(){
                 <td>{camera.ip}</td>
                 <td>{camera.user}</td>
                 <td>{camera.pass}</td>
+                <td>{camera.ping}</td>
+                <td>{camera.video}</td>
+                <td><Button className="remove-btn" size="sm" onClick={this.onDeleteClick(_id)}>{_id}</Button></td>
             </tr>);
 
         return(
@@ -39,10 +51,12 @@ componentDidMount(){
                             <th>Password</th>
                             <th>Ping</th>
                             <th>Video Loss</th>
+                            <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             {cameraItems}
+                            
                         </tbody>
                         </Table>
             </div>
@@ -54,7 +68,7 @@ componentDidMount(){
 
 Results.propTypes = {
     fetchCameras: PropTypes.func.isRequired,
-     cameras: PropTypes.array.isRequired,
+    cameras: PropTypes.array.isRequired,
     newCamera: PropTypes.object
 }
 
@@ -63,4 +77,4 @@ const mapStateToProps = state => ({
     newCamera: state.cameras.item
 });
 
-export default connect (mapStateToProps, {fetchCameras})(Results);
+export default connect (mapStateToProps, {fetchCameras, deleteCamera})(Results);

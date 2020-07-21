@@ -1,14 +1,32 @@
 {
   "cameras": [
     {
+      "ip": "12345",
+      "user": "user",
+      "pass": "pass",
+      "ping": true,
+      "video": true,
+      "id": 1
+    },
+    {
+      "ip": "23456",
+      "user": "user2",
+      "pass": "pass2",
+      "id": 2
+    },
+    {
+      "ip": "23456",
+      "user": "user2",
+      "pass": "pass2",
+      "id": 3
     }
   ],
   "setup": {
     "status": "noReboot",
     "date": "2020-07-21T04:00:00.000Z",
-    "currentReboots": 1,
+    "currentReboots": 0,
     "maxReboots": 1,
-    "switchIP": "",
+    "switchIP": "10.10.1",
     "user": "i3admin",
     "pass": "i3admin",
     "UIO8IP": "",

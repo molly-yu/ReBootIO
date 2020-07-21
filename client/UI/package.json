@@ -5,12 +5,17 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "server": "cd ../../server && node server.js",
+    "client": "npm start",
+    "go": "cd .. && go run main.go",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run go\""
   },
   "license": "MIT",
   "author": "Molly Yu",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.19.2",   
+    "concurrently": "^5.2.0",    
     "moment-timezone": "^0.5.31",
     "prop-types": "^15.7.2",
     "react": "16.13.1",

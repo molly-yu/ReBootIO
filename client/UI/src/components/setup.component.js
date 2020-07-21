@@ -39,8 +39,8 @@ class Setup extends Component{
       email:this.props.setup.email,
       isPassed:this.props.setup.isPassed
     }
-    this.onChange=this.onChange.bind(this);
-    this.handleChange=this.handleChange.bind(this);
+      this.onChange=this.onChange.bind(this);
+      this.handleChange=this.handleChange.bind(this);
      this.onSubmit= this.onSubmit.bind(this);
      this.onReset= this.onReset.bind(this);
      this.onStart= this.onStart.bind(this);
