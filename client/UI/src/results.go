@@ -18,7 +18,8 @@ type camera struct {
 	Pass  string `json:"pass"`
 	Ip    string `json:"ip"`
 	Ping  bool   `json:"ping"`
-	Video bool   `json:"bool"`
+	Video bool   `json:"video"`
+	Id    int    `json:"id"`
 }
 
 var cameras = []camera{}
@@ -73,6 +74,32 @@ func postCameras(Cameras []camera) {
 	}
 
 	jsonStr, _ := json.MarshalIndent(&Cameras, "", "	")
+
+	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Header", "value")
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("response Status:", resp.Status)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
+}
+
+// ____________________________________________________________________postCamera (1)____________________________________________________________________
+func postCamera(Camera camera) {
+	url := "http://localhost:3000/cameras/" + strconv.Itoa(Camera.Id)
+	fmt.Println("URL:>", url)
+
+	client := http.Client{
+		Timeout: time.Second * 3, // Timeout after 3 seconds
+	}
+
+	jsonStr, _ := json.MarshalIndent(&Camera, "", "	")
 
 	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Header", "value")

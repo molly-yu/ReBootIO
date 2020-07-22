@@ -20,8 +20,6 @@ import (
 func main() {
 	setup := getInfo()
 	cameras := getCameras()
-	fmt.Println("Num of Cameras: ", len(cameras)-1)
-
 	dt := time.Now()
 	input := setup.Status
 	cur := setup.CurrentReboots
@@ -30,6 +28,19 @@ func main() {
 
 	if input != "noReboot" {
 		for setup.CurrentReboots < setup.MaxReboots {
+			for i := 0; i < len(cameras); i++ {
+				ip := cameras[i].Ip
+				cameras[i].Ping = pingCamera(ip)
+				cameras[i].Video = true
+				postCamera(cameras[i])
+				if !cameras[i].Ping {
+					setup.IsPassed = false
+					postInfo(setup)
+					return
+				}
+				setup.IsPassed = true
+
+			}
 			fmt.Println("Status: ", input)
 			fmt.Println("currentReboots: ", cur)
 			fmt.Println("maxReboots: ", max)
@@ -86,9 +97,6 @@ func main() {
 
 		}
 	}
-	ip := cameras[1].Ip             // placeholder
-	setup.IsPassed = pingCamera(ip) // placeholder
-	fmt.Println("Passed:", setup.IsPassed)
 
 }
 
