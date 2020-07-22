@@ -24,7 +24,8 @@ export const createCamera = camera => dispatch => {
 };
 
 export const deleteCamera = camid => dispatch => {
-    axios.delete('http://localhost:3000/cameras/', {params:{id: camid}}).then(res => dispatch({
+    let id = String(camid)
+    axios.delete('http://localhost:3000/cameras/'+id).then(res => dispatch({
         type: DELETE_CAMERA,
         payload: camid
         })

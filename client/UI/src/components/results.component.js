@@ -14,17 +14,13 @@ width:100%;
 `;
 
 class Results extends Component{
-    constructor(props){
-        super(props);
-        this.onDeleteClick = this.onDeleteClick.bind(this)
-    }
 
 
 componentDidMount(){
     this.props.fetchCameras();
 }
 
-onDeleteClick (id) {
+onDeleteClick = id => {
     console.log('Deleted ', id)
     this.props.deleteCamera(id);
 };
@@ -37,7 +33,7 @@ onDeleteClick (id) {
                 <td>{camera.pass}</td>
                 <td>{camera.ping}</td>
                 <td>{camera.video}</td>
-                <td><Button className="remove-btn" size="sm" onClick={this.onDeleteClick(camera.id)}>{camera.id}</Button></td>
+                <td><Button className="remove-btn" size="sm" onClick={() => {this.onDeleteClick.bind(this,camera.id) }}>X</Button></td>
             </tr>);
 
         return(

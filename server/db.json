@@ -13,12 +13,6 @@
       "user": "user2",
       "pass": "pass2",
       "id": 2
-    },
-    {
-      "ip": "23456",
-      "user": "user2",
-      "pass": "pass2",
-      "id": 3
     }
   ],
   "setup": {
