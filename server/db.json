@@ -14,10 +14,26 @@
       "pass": "pass2",
       "id": 2,
       "ping": true
+    },
+    {
+      "ip": "10.10.1.106",
+      "user": "i3admin",
+      "pass": "i3admin",
+      "ping": true,
+      "video": true,
+      "id": 3
+    },
+    {
+      "ip": "10.10.1.106",
+      "user": "i3admin",
+      "pass": "i3admin",
+      "ping": true,
+      "video": true,
+      "id": 4
     }
   ],
   "setup": {
-    "status": "SRX-Pro",
+    "status": "noReboot",
     "date": "2020-07-21T04:00:00.000Z",
     "currentReboots": 0,
     "maxReboots": 2,
@@ -28,6 +44,6 @@
     "onTime": 0,
     "offTime": 0,
     "email": "",
-    "isPassed": false
+    "isPassed": true
   }
 }
