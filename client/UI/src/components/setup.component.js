@@ -48,6 +48,7 @@ class Setup extends Component{
   
     componentDidMount(){
       this.props.fetchSetup();
+      window.test();
     }
 
     handleChange = date => this.setState({ date })

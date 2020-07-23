@@ -33,7 +33,7 @@ onDeleteClick = id => {
                 <td>{camera.pass}</td>
                 <td>{camera.ping}</td>
                 <td>{camera.video}</td>
-                <td><Button className="remove-btn" size="sm" onClick={() => {this.onDeleteClick.bind(this,camera.id) }}>X</Button></td>
+        <td><Button className="remove-btn" size="sm" onClick={() => {this.onDeleteClick.bind(this,camera.id) }}>{camera.id}</Button></td>
             </tr>);
 
         return(

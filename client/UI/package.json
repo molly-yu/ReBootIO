@@ -14,8 +14,8 @@
   "license": "MIT",
   "author": "Molly Yu",
   "dependencies": {
-    "axios": "^0.19.2",   
-    "concurrently": "^5.2.0",    
+    "axios": "^0.19.2",
+    "concurrently": "^5.2.0",
     "moment-timezone": "^0.5.31",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
@@ -25,6 +25,7 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "remote-redux-devtools": "^0.5.16",
     "semantic-ui-react": "^0.88.2",
