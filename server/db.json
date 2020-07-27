@@ -1,35 +1,20 @@
 {
   "cameras": [
     {
-      "user": "user",
-      "pass": "pass",
-      "ip": "12345",
-      "ping": false,
+      "ip": "10.10.1.106",
+      "user": "i3admin",
+      "pass": "i3admin",
+      "ping": true,
       "video": true,
       "id": 1
     },
     {
-      "ip": "23456",
-      "user": "user2",
-      "pass": "pass2",
-      "id": 2,
-      "ping": true
-    },
-    {
-      "ip": "10.10.1.106",
+      "ip": "10.10.1.105",
       "user": "i3admin",
       "pass": "i3admin",
       "ping": true,
-      "video": true,
-      "id": 3
-    },
-    {
-      "ip": "10.10.1.106",
-      "user": "i3admin",
-      "pass": "i3admin",
-      "ping": true,
-      "video": true,
-      "id": 4
+      "video": false,
+      "id": 2
     }
   ],
   "setup": {
