@@ -7,8 +7,7 @@ import styled from 'styled-components';
 import {Row, Col, Form, Button} from 'react-bootstrap';
 import { Checkbox } from 'semantic-ui-react';
 import DateTimePicker from 'react-datetime-picker';
-import moment from 'moment-timezone';
-moment.tz.setDefault("America/New_York");
+
 
 const Styles = styled.div`
   margin: 2em;
@@ -27,7 +26,7 @@ class Setup extends Component{
     super(props);
     this.state = {
       status: this.props.setup.status,
-      date: this.props.setup.date,
+      date:this.props.setup.date,
       currentReboots: this.props.currentReboots,
       maxReboots: this.props.setup.maxReboots,
       switchIP: this.props.setup.switchIP,
@@ -39,8 +38,8 @@ class Setup extends Component{
       email:this.props.setup.email,
       isPassed:this.props.setup.isPassed
     }
-      this.onChange=this.onChange.bind(this);
-      this.handleChange=this.handleChange.bind(this);
+    this.onChange=this.onChange.bind(this);
+    this.handleChange=this.handleChange.bind(this);
      this.onSubmit= this.onSubmit.bind(this);
      this.onReset= this.onReset.bind(this);
      this.onStart= this.onStart.bind(this);
@@ -48,7 +47,7 @@ class Setup extends Component{
   
     componentDidMount(){
       this.props.fetchSetup();
-      window.test();
+      
     }
 
     handleChange = date => this.setState({ date })
@@ -78,6 +77,7 @@ class Setup extends Component{
           isPassed: true,
       };
       this.props.updateSetup(newSetup); // replaces fetch with createPost action
+      window.test();
   }
 
   onReset(e){ // sets status to no action
@@ -102,6 +102,9 @@ class Setup extends Component{
           isPassed: true,
       };
       this.props.updateSetup(newSetup); // replaces fetch with createPost action
+      // var shell = window.WScript.CreateObject("WScript.Shell");
+      // shell.Run("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
+     window.open('H:\\UIO8_Project\\client\\UI\\src\\src.exe')
   }
 
     render() {
