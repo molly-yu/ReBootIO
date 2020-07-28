@@ -16,90 +16,99 @@ import (
 	"golang.org/x/sys/windows"
 )
 
-// __________________________________________________________________________main________________________________________________________________
-func main() {
-	for true {
-		setup := getInfo()
-		cameras := getCameras()
+// __________________________________________________________________________reboot________________________________________________________________
+func reboot() {
+	setup := getInfo() // get setup
+
+	if setup.Status != "noReboot" { // run reboot
+		cameras := getCameras() // get info for cameras
 		dt := time.Now()
-		input := setup.Status
-		cur := setup.CurrentReboots
-		max := setup.MaxReboots
-		isPassed := setup.IsPassed
 
-		if input != "noReboot" {
-			for setup.CurrentReboots < setup.MaxReboots {
-				for i := 0; i < len(cameras); i++ {
-					ip := cameras[i].Ip
-					cameras[i].Ping = pingCamera(ip)
-					cameras[i].Video = true
-					postCamera(cameras[i])
-					if !cameras[i].Ping {
-						setup.IsPassed = false
-						postInfo(setup)
-						return
-					}
-					setup.IsPassed = true
+		setup.IsPassed = CheckCameras(cameras) // check if cameras are connected and working; if not, return
+		if !setup.IsPassed {
+			setup.Status = "noReboot"
+			postInfo(setup)
+			return
+		}
 
+		// run reboot given that cameras all passed
+		for setup.CurrentReboots < setup.MaxReboots { // while not at max reboots
+
+			fmt.Println("Status: ", setup.Status)
+			fmt.Println("currentReboots: ", setup.CurrentReboots)
+			fmt.Println("maxReboots: ", setup.MaxReboots)
+			fmt.Println("isPassed: ", setup.IsPassed)
+
+			if setup.Status == "SRX-Pro" { // reset srx-pro through date/time change
+
+				tm := setup.Date
+
+				time.Sleep(10 * time.Second) // we can replace this with time interval later on
+
+				//dt := time.Date(2020, 06, 17, 20, 34, 58, 65, time.UTC) // yyyy, mm, dd, hh, min, ss, ms
+				dt, _ = time.Parse("2006-01-02T15:04:05Z", tm)
+				fmt.Println(dt)
+
+				err1 := SetSystemDate(dt)
+				if err1 != nil {
+					fmt.Printf("Error: %s", err1.Error())
 				}
-				fmt.Println("Status: ", input)
-				fmt.Println("currentReboots: ", cur)
-				fmt.Println("maxReboots: ", max)
-				fmt.Println("isPassed: ", isPassed)
-				if isPassed {
-
-					if input == "SRX-Pro" { // reset srx-pro through date/time change
-						// get admin permissions if not administrator
-						if !amAdmin() {
-							runMeElevated()
-						}
-						time.Sleep(10 * time.Second)
-
-						tm := setup.Date
-
-						time.Sleep(10 * time.Second) // we can replace this with time interval later on
-
-						//dt := time.Date(2020, 06, 17, 20, 34, 58, 65, time.UTC) // yyyy, mm, dd, hh, min, ss, ms
-						dt, _ = time.Parse("2006-01-02T15:04:05Z", tm)
-						fmt.Println(dt)
-
-						err1 := SetSystemDate(dt)
-						if err1 != nil {
-							fmt.Printf("Error: %s", err1.Error())
-						}
-						err2 := SetSystemTime(dt)
-						if err2 != nil {
-							fmt.Printf("Error: %s", err2.Error())
-						}
-						// With short weekday (Mon)
-						// fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
-
-					} else if input == "Switch" { // reset switches through http request
-
-						ip := setup.SwitchIP
-						user := setup.User
-						pass := setup.Pass
-
-						rebootSwitch(ip, user, pass)
-						// err := rebootSwitch(ip, user, pass)
-						// if err != nil {
-						// 	fmt.Printf("Error: %s", err.Error())
-						// }
-					} else if input == "UIO8" {
-
-					}
+				err2 := SetSystemTime(dt)
+				if err2 != nil {
+					fmt.Printf("Error: %s", err2.Error())
 				}
-				setup.CurrentReboots++
-				if setup.CurrentReboots == setup.MaxReboots {
-					setup.Status = "noReboot"
-				}
-				// also call results function here and redefine isPassed
+				// With short weekday (Mon)
+				// fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
+
+			} else if setup.Status == "Switch" { // reset switches through http request
+
+				ip := setup.SwitchIP
+				user := setup.User
+				pass := setup.Pass
+
+				rebootSwitch(ip, user, pass)
+				// err := rebootSwitch(ip, user, pass)
+				// if err != nil {
+				// 	fmt.Printf("Error: %s", err.Error())
+				// }
+			} else if setup.Status == "UIO8" {
+
+			}
+			fmt.Println("Rebooted")
+			setup.CurrentReboots++
+			if setup.CurrentReboots == setup.MaxReboots {
+				setup.Status = "noReboot"
+			}
+
+			// also call results function here and redefine isPassed, checks all cameras
+
+			setup.IsPassed = CheckCameras(cameras)
+
+			if !setup.IsPassed {
+				setup.Status = "noReboot"
 				postInfo(setup)
-
+				return
+			} else {
+				postInfo(setup)
 			}
 		}
 	}
+}
 
+//____________________________________________________________________________CheckCameras_______________________________________________________
+func CheckCameras(cameras []camera) bool {
+	isPassed := true
+	for i := 0; i < len(cameras); i++ { // check cameras
+		ip := cameras[i].Ip
+		cameras[i].Ping = pingCamera(ip)
+		cameras[i].Video = true
+		postCamera(cameras[i])
+		if !cameras[i].Ping {
+			isPassed = false
+			fmt.Println("Camera fail")
+		}
+	}
+	return isPassed
 }
 
 // ______________________________________________________________________setSystemDate && setSystemTime__________________________________________

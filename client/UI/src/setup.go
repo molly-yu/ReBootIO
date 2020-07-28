@@ -29,7 +29,7 @@ type setup struct { // struct defining state of setup
 // _______________________________________________________________________getInfo_______________________________________________________________________
 func getInfo() setup { // retrieves setup info from server and returns setup
 	url := "http://localhost:3000/setup"
-	fmt.Println("URL:>", url)
+	//fmt.Println("URL:>", url)
 
 	client := http.Client{
 		Timeout: time.Second * 3, // Timeout after 3 seconds
@@ -68,7 +68,7 @@ func getInfo() setup { // retrieves setup info from server and returns setup
 // ____________________________________________________________________postInfo____________________________________________________________________
 func postInfo(Setup setup) {
 	url := "http://localhost:3000/setup"
-	fmt.Println("URL:>", url)
+	//fmt.Println("URL:>", url)
 
 	client := http.Client{
 		Timeout: time.Second * 3, // Timeout after 3 seconds

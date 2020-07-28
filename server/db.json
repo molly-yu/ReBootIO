@@ -9,19 +9,19 @@
       "id": 1
     },
     {
-      "ip": "10.10.1.105",
       "user": "i3admin",
       "pass": "i3admin",
-      "ping": true,
-      "video": false,
+      "ip": "10.10.1.105",
+      "ping": false,
+      "video": true,
       "id": 2
     }
   ],
   "setup": {
-    "status": "SRX-Pro",
+    "status": "noReboot",
     "date": "2020-07-27T04:00:00.000Z",
     "currentReboots": 0,
-    "maxReboots": 2,
+    "maxReboots": 3,
     "switchIP": "",
     "user": "i3admin",
     "pass": "i3admin",
@@ -29,6 +29,6 @@
     "onTime": 0,
     "offTime": 0,
     "email": "",
-    "isPassed": false
+    "isPassed": true
   }
 }

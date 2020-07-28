@@ -8,6 +8,9 @@ import {Row, Col, Form, Button} from 'react-bootstrap';
 import { Checkbox } from 'semantic-ui-react';
 import DateTimePicker from 'react-datetime-picker';
 
+const { spawn } = require('child_process');
+
+
 
 const Styles = styled.div`
   margin: 2em;
@@ -78,11 +81,15 @@ class Setup extends Component{
       };
       this.props.updateSetup(newSetup); // replaces fetch with createPost action
       window.test();
+      
   }
-
+  
   onReset(e){ // sets status to no action
     this.setState({status:'noReboot'})
     this.onSubmit(e);
+    child.on('exit', function (code, signal) {
+      console.log('child process exited with ' + `code ${code} and signal ${signal}`);
+    });
   }
 
   onStart(e){ // starting 
@@ -104,7 +111,18 @@ class Setup extends Component{
       this.props.updateSetup(newSetup); // replaces fetch with createPost action
       // var shell = window.WScript.CreateObject("WScript.Shell");
       // shell.Run("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
-     window.open('H:\\UIO8_Project\\client\\UI\\src\\src.exe')
+    //  window.open('file:///H://UIO8_Project//client//UI//src//run.bat')
+    
+    // const {shell} = require('electron');
+    // // Open a local file in the default app
+    // shell.openItem('H:\\UIO8_Project\\client\\UI\\src\\src.exe');
+
+    // var { exec } = require("child_process");
+    // //the function acts like a shell, so just use shell commands.
+    // exec("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
+
+
+    const child = spawn("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
   }
 
     render() {

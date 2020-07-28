@@ -27,7 +27,7 @@ var cameras = []camera{}
 // _______________________________________________________________________getCameras_____________________________________________________________________________________
 func getCameras() []camera {
 	url := "http://localhost:3000/cameras"
-	fmt.Println("URL:>", url)
+	//fmt.Println("URL:>", url)
 
 	client := http.Client{
 		Timeout: time.Second * 3, // Timeout after 3 seconds
@@ -67,7 +67,7 @@ func getCameras() []camera {
 // ____________________________________________________________________postCameras____________________________________________________________________
 func postCameras(Cameras []camera) { // put the entire array of cameras
 	url := "http://localhost:3000/cameras"
-	fmt.Println("URL:>", url)
+	//fmt.Println("URL:>", url)
 
 	client := http.Client{
 		Timeout: time.Second * 3, // Timeout after 3 seconds
@@ -93,7 +93,7 @@ func postCameras(Cameras []camera) { // put the entire array of cameras
 // ____________________________________________________________________postCamera (1)____________________________________________________________________
 func postCamera(Camera camera) { // put info for one camera
 	url := "http://localhost:3000/cameras/" + strconv.Itoa(Camera.Id)
-	fmt.Println("URL:>", url)
+	//fmt.Println("URL:>", url)
 
 	client := http.Client{
 		Timeout: time.Second * 3, // Timeout after 3 seconds

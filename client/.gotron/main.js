@@ -4,6 +4,16 @@ const path = require('path');
 var client = new WebSocketClient();
 var socket = null;
 
+// var execFile = require('child_process').execFile;
+
+//     var runExe = function(){
+//        execFile('../UI/src/src.exe', function(err, data) {  
+//             console.log(err)
+//             console.log(data.toString());                       
+//         });  
+//     }
+
+
 const browserWindowEvents = "/browser/window/events"
 const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
