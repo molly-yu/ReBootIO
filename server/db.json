@@ -29,6 +29,6 @@
     "onTime": 0,
     "offTime": 0,
     "email": "",
-    "isPassed": true
+    "isPassed": false
   }
 }

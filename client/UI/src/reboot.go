@@ -18,6 +18,7 @@ import (
 
 // __________________________________________________________________________reboot________________________________________________________________
 func reboot() {
+	fmt.Println("Getting")
 	setup := getInfo() // get setup
 
 	if setup.Status != "noReboot" { // run reboot

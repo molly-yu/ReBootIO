@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import {Row, Col, Form, Button} from 'react-bootstrap';
 import { Checkbox } from 'semantic-ui-react';
 import DateTimePicker from 'react-datetime-picker';
+const ipcMain = require('electron').ipcMain;
+const ipcRenderer = require('electron').ipcRenderer;
 
 const { spawn } = require('child_process');
 
@@ -18,9 +20,7 @@ const Styles = styled.div`
    .actions{
     padding-top: 2em;
   }
-
   Form.Group {
-
   }
 `;
 
@@ -39,11 +39,13 @@ class Setup extends Component{
       onTime:this.props.setup.onTime,
       offTime:this.props.setup.offTime,
       email:this.props.setup.email,
-      isPassed:this.props.setup.isPassed
+      isPassed:this.props.setup.isPassed,
+
+      pids: []
     }
     this.onChange=this.onChange.bind(this);
     this.handleChange=this.handleChange.bind(this);
-     this.onSubmit= this.onSubmit.bind(this);
+     this.onSave= this.onSave.bind(this);
      this.onReset= this.onReset.bind(this);
      this.onStart= this.onStart.bind(this);
   }
@@ -62,11 +64,50 @@ class Setup extends Component{
       // this.props.saveValue(data)
     }
 
-    onSubmit(e){ // save form except status (no action yet)
-      e.preventDefault();
+
+    handleClick = id => {
+
+        if(this.state.pids.length >1){
+          var pid = this.state.pids.shift()
+          process.kill(pid)
+        }
+
+      if (id == 1){
+        this.onStart()
+        const child = spawn('H:\\UIO8_Project\\client\\UI\\src\\src.exe', {detached: true});
+        this.state.pids.push(child.pid)
+        console.log('Start reached', id)
+      }
+
+      else if (id == 2 && this.state.pids.length >=1){
+        console.log('Reset reached', id)
+        this.onReset()
+        // child.on('exit', function (code, signal) {
+        //   console.log('child process exited with ' + `code ${code} and signal ${signal}`);
+
+          // A simple pid lookup
+          console.log('hi');
+          // child.on('close', (code) => {
+          //   console.log(`child process close all stdio with code ${code}`);
+          // });
+          
+          // child.on('exit', (code) => {
+          //   console.log(`child process exited with code ${code}`);
+          // });
+
+          // child.kill( 'SIGTERM');
+
+          var pid = this.state.pids.shift()
+          console.log('Pid: ', pid)
+          const killTask = spawn("taskkill", ["/pid", pid, '/f', '/t']);
+          killTask.kill('SIGTERM');
+      }
+    }
+
+    onSave(){ // save form except status (no action yet)
       const newSetup =
         {
-          status:'noReboot',
+          status:this.state.status,
           date: this.state.date,
           currentReboots: 0,
           maxReboots: parseInt(this.state.maxReboots, 10),
@@ -84,31 +125,14 @@ class Setup extends Component{
       
   }
   
-  onReset(e){ // sets status to no action
+  onReset(){ // sets status to no action
     this.setState({status:'noReboot'})
-    this.onSubmit(e);
-    child.on('exit', function (code, signal) {
-      console.log('child process exited with ' + `code ${code} and signal ${signal}`);
-    });
+    this.onSave();
+    
   }
 
-  onStart(e){ // starting 
-      const newSetup =
-        {
-          status:this.state.status,
-          date: this.state.date,
-          currentReboots: 0,
-          maxReboots: parseInt(this.state.maxReboots, 10),
-          switchIP: this.state.switchIP,
-          user: this.state.user,
-          pass: this.state.pass,
-          UIO8IP: this.state.UIO8IP,
-          onTime:this.state.onTime,
-          offTime:this.state.offTime,
-          email:this.state.email,
-          isPassed: true,
-      };
-      this.props.updateSetup(newSetup); // replaces fetch with createPost action
+  onStart(){ // starting 
+      this.onSave(); // replaces fetch with createPost action
       // var shell = window.WScript.CreateObject("WScript.Shell");
       // shell.Run("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
     //  window.open('file:///H://UIO8_Project//client//UI//src//run.bat')
@@ -120,9 +144,7 @@ class Setup extends Component{
     // var { exec } = require("child_process");
     // //the function acts like a shell, so just use shell commands.
     // exec("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
-
-
-    const child = spawn("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
+   
   }
 
     render() {
@@ -131,7 +153,7 @@ class Setup extends Component{
             <Styles>
             <div className="Setup" id="setup">
                 <h2>Reboot:</h2>
-                <Form onSubmit={this.onSubmit}> 
+                <Form > 
                 
                   <Form.Group >
                     Selected value: <b>{this.state.status}</b>
@@ -227,16 +249,16 @@ class Setup extends Component{
                     <Form.Control name="maxReboots" onChange={this.onChange} value={this.state.maxReboots} placeholder="0-1000" />
                   </Form.Group>
                 </Form.Row>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="button" onClick={() => this.onSave()}>
                   Save
                 </Button>
 
             </Form>
             <div className="actions">
-              <Button variant="primary" type="button" onClick={this.onStart} >
+              <Button variant="primary" type="button" onClick={() => this.handleClick(1)} >
                   Start
                 </Button>
-                <Button variant="outline-primary" type="button" onClick={this.onReset}>
+                <Button variant="outline-primary" type="button" onClick={() => this.handleClick(2)}>
                   Cancel
                 </Button>
             </div>

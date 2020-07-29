@@ -10,6 +10,5 @@ func main() {
 	time.Sleep(10 * time.Second)
 
 	reboot()
-	time.Sleep(5 * time.Second)
 
 }

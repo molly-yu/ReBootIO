@@ -40,7 +40,7 @@ module.exports = {
   },
   externals: [
     (function () {
-      var IGNORES = ['child_process'];
+      var IGNORES = ['child_process','electron'];
       return function (context, request, callback){
         if(IGNORES.indexOf(request) >= 0){
           return callback(null, "require('"+ request+"')")
