@@ -1,1 +1,0 @@
-start /d src.exe
