@@ -13,7 +13,6 @@ width:100%;
  z-index: 5;
 `;
 
-
 class Cameras extends Component{
     constructor(props){
         super(props);
@@ -23,12 +22,10 @@ class Cameras extends Component{
             pass:'',
             ping:true, // passed by default
             video: true,
-            valid: false
         }
         this.onChange=this.onChange.bind(this);
         this.onSubmit= this.onSubmit.bind(this);
     }
-
 
     onChange(e){
         this.setState({[e.target.name]: e.target.value}); // set the state of the particular component
@@ -40,16 +37,16 @@ class Cameras extends Component{
             alert("The form is incomplete.");
         }
         else {
-        const camera = {
-            ip: this.state.ip,
-            user: this.state.user,
-            pass: this.state.pass,
-            ping: this.state.ping,
-            video: this.state.video
-        };
-        this.props.createCamera(camera); 
-        alert("Camera saved.");
-    }
+            const camera = {
+                ip: this.state.ip,
+                user: this.state.user,
+                pass: this.state.pass,
+                ping: this.state.ping,
+                video: this.state.video
+            };
+            this.props.createCamera(camera); // adds camera to list
+            alert("Camera saved.");
+        }
     }
 
     handleValidation(){
@@ -62,11 +59,9 @@ class Cameras extends Component{
             isValid = false;
         }
         return isValid;
-
     }
 
     render(){
-
         return(
             <Styles>
             <div className="Cameras" id="cameras">
@@ -97,8 +92,6 @@ class Cameras extends Component{
                         </Form.Group>
                         </Col>
                     </Form.Row>
-                    
-
                     
                     <Button variant="primary" type="submit">
                         Add

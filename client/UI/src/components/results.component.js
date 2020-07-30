@@ -19,7 +19,6 @@ class Results extends Component{
         this.onDeleteClick = this.onDeleteClick.bind(this);
     }
 
-
 componentDidMount(){
     this.props.fetchCameras();
 }
@@ -28,7 +27,6 @@ onDeleteClick = id => {
     console.log('Deleted ', id)
     this.props.deleteCamera(id);
 };
-
 
     render(){
         const cameraItems= this.props.cameras.map(camera => 
@@ -67,8 +65,7 @@ onDeleteClick = id => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cameraItems}
-                            
+                            {cameraItems}        
                         </tbody>
                         </Table>
             </div>
@@ -76,7 +73,6 @@ onDeleteClick = id => {
         )
     }
 }
-
 
 Results.propTypes = {
     fetchCameras: PropTypes.func.isRequired,

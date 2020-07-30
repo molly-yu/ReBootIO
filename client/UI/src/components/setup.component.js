@@ -237,7 +237,6 @@ class Setup extends Component{
     }
 }
 
-
 Setup.propTypes = {
   fetchSetup: PropTypes.func.isRequired,
   updateSetup: PropTypes.func.isRequired,
