@@ -3,18 +3,34 @@
     {
       "user": "i3admin",
       "pass": "i3admin",
-      "ip": "10.10.1.106",
-      "ping": false,
-      "video": true,
-      "id": 1
-    },
-    {
-      "user": "i3admin",
-      "pass": "i3admin",
       "ip": "10.10.1.105",
-      "ping": false,
+      "ping": true,
       "video": true,
       "id": 2
+    },
+    {
+      "ip": "10.10.1.106",
+      "user": "i3admin",
+      "pass": "i3admin",
+      "ping": true,
+      "video": true,
+      "id": 3
+    },
+    {
+      "ip": "10.10.1.104",
+      "user": "i3admin",
+      "pass": "i3admin",
+      "ping": true,
+      "video": true,
+      "id": 5
+    },
+    {
+      "ip": "10.10.1.107",
+      "user": "i3admin",
+      "pass": "i3admin",
+      "ping": true,
+      "video": true,
+      "id": 6
     }
   ],
   "setup": {
@@ -29,6 +45,6 @@
     "onTime": 0,
     "offTime": 0,
     "email": "",
-    "isPassed": false
+    "isPassed": true
   }
 }

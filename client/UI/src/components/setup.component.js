@@ -7,12 +7,7 @@ import styled from 'styled-components';
 import {Row, Col, Form, Button} from 'react-bootstrap';
 import { Checkbox } from 'semantic-ui-react';
 import DateTimePicker from 'react-datetime-picker';
-const ipcMain = require('electron').ipcMain;
-const ipcRenderer = require('electron').ipcRenderer;
-
 const { spawn } = require('child_process');
-
-
 
 const Styles = styled.div`
   margin: 2em;
@@ -43,6 +38,7 @@ class Setup extends Component{
 
       pids: []
     }
+
     this.onChange=this.onChange.bind(this);
     this.handleChange=this.handleChange.bind(this);
      this.onSave= this.onSave.bind(this);
@@ -52,56 +48,11 @@ class Setup extends Component{
   
     componentDidMount(){
       this.props.fetchSetup();
-      
     }
 
     handleChange = date => this.setState({ date })
     onChange(e) {
       this.setState({[e.target.name]: e.target.value}); // set the state of the particular component
-      // let data = {}
-      // data.name = e.target.name
-      // data.value = e.target.value
-      // this.props.saveValue(data)
-    }
-
-
-    handleClick = id => {
-
-        if(this.state.pids.length >1){
-          var pid = this.state.pids.shift()
-          process.kill(pid)
-        }
-
-      if (id == 1){
-        this.onStart()
-        const child = spawn('H:\\UIO8_Project\\client\\UI\\src\\src.exe', {detached: true});
-        this.state.pids.push(child.pid)
-        console.log('Start reached', id)
-      }
-
-      else if (id == 2 && this.state.pids.length >=1){
-        console.log('Reset reached', id)
-        this.onReset()
-        // child.on('exit', function (code, signal) {
-        //   console.log('child process exited with ' + `code ${code} and signal ${signal}`);
-
-          // A simple pid lookup
-          console.log('hi');
-          // child.on('close', (code) => {
-          //   console.log(`child process close all stdio with code ${code}`);
-          // });
-          
-          // child.on('exit', (code) => {
-          //   console.log(`child process exited with code ${code}`);
-          // });
-
-          // child.kill( 'SIGTERM');
-
-          var pid = this.state.pids.shift()
-          console.log('Pid: ', pid)
-          const killTask = spawn("taskkill", ["/pid", pid, '/f', '/t']);
-          killTask.kill('SIGTERM');
-      }
     }
 
     onSave(){ // save form except status (no action yet)
@@ -122,43 +73,55 @@ class Setup extends Component{
       };
       this.props.updateSetup(newSetup); // replaces fetch with createPost action
       window.test();
-      
   }
   
   onReset(){ // sets status to no action
+    console.log('Cancelling')
     this.setState({status:'noReboot'})
     this.onSave();
-    
   }
 
   onStart(){ // starting 
-      this.onSave(); // replaces fetch with createPost action
-      // var shell = window.WScript.CreateObject("WScript.Shell");
-      // shell.Run("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
-    //  window.open('file:///H://UIO8_Project//client//UI//src//run.bat')
-    
-    // const {shell} = require('electron');
-    // // Open a local file in the default app
-    // shell.openItem('H:\\UIO8_Project\\client\\UI\\src\\src.exe');
+      this.onSave(); 
+      console.log('Starting')
 
-    // var { exec } = require("child_process");
-    // //the function acts like a shell, so just use shell commands.
-    // exec("H:\\UIO8_Project\\client\\UI\\src\\src.exe");
-   
+      const child = spawn('H:\\UIO8_Project\\client\\UI\\src\\src.exe', {detached: true});
+      this.state.pids.push(child.pid)
+      if(this.state.pids.length >1){
+        console.log('Too many processes')
+        var pid = this.state.pids.shift()
+        process.kill(pid)
+      }
   }
 
     render() {
-
         return(
             <Styles>
             <div className="Setup" id="setup">
                 <h2>Reboot:</h2>
                 <Form > 
-                
+                <Form.Row >
+                  <Form.Group as={Col} sm="3">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control name="user" onChange={this.onChange} value={this.state.user} placeholder="i3admin" />
+                  </Form.Group>
+                  <Form.Group as={Col} sm="3">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control name="pass" onChange={this.onChange} value={this.state.pass} placeholder="i3admin" />
+                  </Form.Group>
+                  <Form.Group as={Col} sm="3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control name="email" onChange={this.onChange} value={this.state.email} placeholder="Email" />
+                  </Form.Group>
+                  </Form.Row>
+
+                <Form.Row>
                   <Form.Group >
                     Selected value: <b>{this.state.status}</b>
                   </Form.Group>
-                  <Form.Row >
+                </Form.Row>
+
+                <Form.Row >
                   <Form.Group as={Col } sm="1" >
                     <Checkbox
                       radio
@@ -169,25 +132,18 @@ class Setup extends Component{
                       onChange={this.onChange}
                     />
                   </Form.Group>
-                  <Form.Group as={Col} sm="2">
+                  <Form.Group as={Col} sm="3">
                     <Form.Label>Reboot Date and Time</Form.Label>
                   <DateTimePicker
                   onChange={this.handleChange}
                   value={this.state.date}
-                />
-                 </Form.Group>
-
-                 <Form.Group as={Col} sm="2">
-                    <Form.Label>Time Interval</Form.Label>
-                    <Form.Control type="interval" placeholder="hh:mm:ss" />
+                  />
                   </Form.Group>
-
-
-                  {/*<Form.Group as={Col} controlId="formGridEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" />
-                  </Form.Group> */}
-                  </Form.Row>
+                  <Form.Group as={Col} sm="3">
+                    <Form.Label>Time Interval</Form.Label>
+                    <Form.Control type="interval" placeholder="mm:ss" />
+                  </Form.Group>
+                </Form.Row>
 
                 <Form.Row>
                   <Form.Group as={Col} sm="1" >
@@ -200,20 +156,17 @@ class Setup extends Component{
                       onChange={this.onChange}
                     />
                   </Form.Group>
-
-                  <Form.Group as={Col} sm="2">
+                  <Form.Group as={Col} sm="3">
                     <Form.Label>IP</Form.Label>
                     <Form.Control name="switchIP" onChange={this.onChange} value={this.state.switchIP} placeholder="192.168.0.0" />
                   </Form.Group>
-
-                  <Form.Group as={Col} sm="2">
+                  <Form.Group as={Col} sm="3">
                     <Form.Label>Time Interval</Form.Label>
-                    <Form.Control name="interval" placeholder="hh:mm:ss" />
+                    <Form.Control name="interval" placeholder="mm:ss" />
                   </Form.Group>
-
                 </Form.Row>
 
-                  <Form.Row>
+                <Form.Row>
                   <Form.Group as={Col} sm="1">
                     <Checkbox
                       radio
@@ -224,46 +177,42 @@ class Setup extends Component{
                       onChange={this.onChange}
                     />
                   </Form.Group>
-
-
-                  <Form.Group as={Col} sm="2">
+                  <Form.Group as={Col} sm="3">
                     <Form.Label>IP</Form.Label>
                     <Form.Control name="UIO8IP" onChange={this.onChange} value={this.state.UIO8IP} placeholder="192.168.0.0" />
                   </Form.Group>
-
-                  <Form.Group as={Col} sm="1">
+                  <Form.Group as={Col} sm="1.5">
                     <Form.Label>ON Time</Form.Label>
-                    <Form.Control name="onTime" onChange={this.onChange} value={this.state.onTime} placeholder="hh:mm:ss" />
+                    <Form.Control name="onTime" onChange={this.onChange} value={this.state.onTime} placeholder="mm:ss" />
                   </Form.Group>
-                  <Form.Group as={Col} sm="1">
+                  <Form.Group as={Col} sm="1.5">
                     <Form.Label>OFF Time</Form.Label>
-                    <Form.Control name="offTime" onChange={this.onChange} value={this.state.offTime} placeholder="hh:mm:ss" />
+                    <Form.Control name="offTime" onChange={this.onChange} value={this.state.offTime} placeholder="mm:ss" />
                   </Form.Group>
+                </Form.Row>
 
-                  </Form.Row>
-
-                  <Form.Row>
-                  
+                <Form.Row>
                   <Form.Group as={Col} sm="1">
                     <Form.Label>Number of Reboots</Form.Label>
                     <Form.Control name="maxReboots" onChange={this.onChange} value={this.state.maxReboots} placeholder="0-1000" />
                   </Form.Group>
                 </Form.Row>
+                
                 <Button variant="primary" type="button" onClick={() => this.onSave()}>
                   Save
                 </Button>
+                </Form>
 
-            </Form>
-            <div className="actions">
-              <Button variant="primary" type="button" onClick={() => this.handleClick(1)} >
-                  Start
-                </Button>
-                <Button variant="outline-primary" type="button" onClick={() => this.handleClick(2)}>
-                  Cancel
-                </Button>
-            </div>
+                <div className="actions">
+                  <Button variant="primary" type="button" onClick={this.onStart} >
+                    Start
+                  </Button>
+                  <Button variant="outline-primary" type="button" onClick={this.onReset}>
+                    Cancel
+                  </Button>
+                </div>
             
-            </div>
+              </div>
             </Styles>
         );
     }

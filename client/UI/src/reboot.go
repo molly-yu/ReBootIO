@@ -35,6 +35,10 @@ func reboot() {
 		// run reboot given that cameras all passed
 		for setup.CurrentReboots < setup.MaxReboots { // while not at max reboots
 
+			if setup.Status == "noReboot" { // return if status is no reboot (either failed cameras or testing cancelled)
+				return
+			}
+
 			fmt.Println("Status: ", setup.Status)
 			fmt.Println("currentReboots: ", setup.CurrentReboots)
 			fmt.Println("maxReboots: ", setup.MaxReboots)
@@ -88,7 +92,6 @@ func reboot() {
 			if !setup.IsPassed {
 				setup.Status = "noReboot"
 				postInfo(setup)
-				return
 			} else {
 				postInfo(setup)
 			}

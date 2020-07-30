@@ -22,7 +22,8 @@ class Cameras extends Component{
             user:'',
             pass:'',
             ping:true, // passed by default
-            video: true
+            video: true,
+            valid: false
         }
         this.onChange=this.onChange.bind(this);
         this.onSubmit= this.onSubmit.bind(this);
@@ -35,7 +36,10 @@ class Cameras extends Component{
 
     onSubmit(e){
         e.preventDefault();
-
+        if (!this.handleValidation()){ // checks if everything is filled out
+            alert("The form is incomplete.");
+        }
+        else {
         const camera = {
             ip: this.state.ip,
             user: this.state.user,
@@ -43,8 +47,22 @@ class Cameras extends Component{
             ping: this.state.ping,
             video: this.state.video
         };
-        this.props.createCamera(camera); // replaces fetch with createPost action
-        
+        this.props.createCamera(camera); 
+        alert("Camera saved.");
+    }
+    }
+
+    handleValidation(){
+        let ip = this.state.ip;
+        let user = this.state.user;
+        let pass = this.state.pass;
+        let isValid = true;
+
+        if (ip=='' || user=='' || pass==''){
+            isValid = false;
+        }
+        return isValid;
+
     }
 
     render(){
