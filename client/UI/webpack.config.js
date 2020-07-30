@@ -38,6 +38,10 @@ module.exports = {
       }
     ]
   },
+  node : {
+    __dirname: false,
+    __filename: false,
+  },
   externals: [
     (function () {
       var IGNORES = ['child_process','electron'];

@@ -28,8 +28,8 @@ class Setup extends Component{
       currentReboots: this.props.currentReboots,
       maxReboots: this.props.setup.maxReboots,
       switchIP: this.props.setup.switchIP,
-      user : 'i3admin',
-      pass : 'i3admin',
+      user : this.props.setup.user,
+      pass : this.props.setup.pass,
       UIO8IP: this.props.setup.UIO8IP,
       onTime:this.props.setup.onTime,
       offTime:this.props.setup.offTime,
@@ -79,19 +79,32 @@ class Setup extends Component{
     console.log('Cancelling')
     this.setState({status:'noReboot'})
     this.onSave();
+    var pid = this.state.pids.shift()
+    console.log('Stopped: ', pid)
   }
 
   onStart(){ // starting 
       this.onSave(); 
-      console.log('Starting')
+      console.log('Starting: ', __dirname) // dirname is client\.gotron\assets
 
-      const child = spawn('H:\\UIO8_Project\\client\\UI\\src\\src.exe', {detached: true});
-      this.state.pids.push(child.pid)
-      if(this.state.pids.length >1){
-        console.log('Too many processes')
-        var pid = this.state.pids.shift()
-        process.kill(pid)
+      if(this.state.pids.length >=1){ // if a process is already running, don't start another
+        alert('Error: Too many processes. Please close the current process to continue.')
       }
+      else {
+      const child = spawn(__dirname + '\\..\\..\\ui\\src\\Go\\Go.exe', {detached: true});
+      this.state.pids.push(child.pid)
+
+      child.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+      });
+      
+      child.on('exit', (code) => { // exits and removes current process from array
+        console.log(`child process exited with code ${code}`);
+        var pid = this.state.pids.shift()
+        console.log('Stopped: ', pid)
+      });
+      }
+      
   }
 
     render() {
@@ -118,6 +131,12 @@ class Setup extends Component{
                 <Form.Row>
                   <Form.Group >
                     Selected value: <b>{this.state.status}</b>
+                  </Form.Group>
+                </Form.Row>
+
+                <Form.Row>
+                  <Form.Group >
+                    Current processes running: <b>{this.state.pids.length}</b>
                   </Form.Group>
                 </Form.Row>
 
