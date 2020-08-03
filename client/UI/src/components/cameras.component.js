@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import { Form, FormControl, InputGroup, Row, Col, Button, Table } from 'react-bootstrap';
 import { createCamera } from '../actions/cameraActions';
 const Styles = styled.div`
-margin: 2em;
-height:100vh;
-width:100%;
- border:0;
- z-index: 5;
+    margin: 2em;
+    padding-right:10em;
+    height:100vh;
+    border:0;
+    z-index: 5;
 `;
 
 class Cameras extends Component{
@@ -65,7 +65,7 @@ class Cameras extends Component{
         return(
             <Styles>
             <div className="Cameras" id="cameras">
-                <h2>Search: </h2>
+                <h2>Add Camera </h2>
                 <Form onSubmit={this.onSubmit}>
                     <Form.Row>
                         <Col>

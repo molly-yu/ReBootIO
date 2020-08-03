@@ -7,8 +7,8 @@ import { Form, FormControl, InputGroup, Row, Col, Button, Table } from 'react-bo
 
 const Styles = styled.div`
 margin: 2em;
+padding-right: 10em;
 height:100vh;
-width:100%;
  border:0;
  z-index: 5;
 `;
@@ -52,7 +52,7 @@ onDeleteClick = id => {
         return(
             <Styles>
             <div className="Results" id="results">
-                    <h2>Testing Results: </h2>
+                    <h2>Testing Results </h2>
                     <Table striped bordered hover>
                         <thead>
                             <tr>

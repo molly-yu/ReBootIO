@@ -4,8 +4,8 @@
       "user": "i3admin",
       "pass": "i3admin",
       "ip": "10.10.1.105",
-      "ping": false,
-      "video": false,
+      "ping": true,
+      "video": true,
       "id": 2
     },
     {

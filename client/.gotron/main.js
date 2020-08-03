@@ -43,9 +43,8 @@ function createWindow() {
   win = new BrowserWindow(opts)
 
   // and load the index.html of the app.
-  setTimeout(() => {
   win.loadURL(`file://${__dirname}/assets/index.html`)
-  }, 2000)
+
 
   // Open the DevTools.
   // win.webContents.openDevTools()

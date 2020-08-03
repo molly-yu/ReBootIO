@@ -84,9 +84,8 @@ class Setup extends Component{
   }
 
   onStart(){ // starting 
-      this.onSave(); 
       console.log('Starting: ', __dirname) // dirname is client\.gotron\assets
-
+      this.onSave(); 
       if(this.state.pids.length >=1){ // if a process is already running, don't start another
         alert('Error: Too many processes. Please close the current process to continue.')
       }
@@ -100,8 +99,7 @@ class Setup extends Component{
       
       child.on('exit', (code) => { // exits and removes current process from array
         console.log(`child process exited with code ${code}`);
-        var pid = this.state.pids.shift()
-        console.log('Stopped: ', pid)
+        this.onReset()
       });
       }
       
@@ -111,7 +109,7 @@ class Setup extends Component{
         return(
             <Styles>
             <div className="Setup" id="setup">
-                <h2>Reboot:</h2>
+                <h2>Reboot</h2>
                 <Form > 
                 <Form.Row >
                   <Form.Group as={Col} sm="3">
