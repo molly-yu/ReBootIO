@@ -1,3 +1,8 @@
+// Molly Yu
+// Results.go
+// Gets list of cameras from database, tests ping/video loss for the cameras, and post functions for cameras
+
+
 package main
 
 import (

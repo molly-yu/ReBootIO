@@ -1,3 +1,7 @@
+// Molly Yu
+// Reboot.go
+// Get & post setup from setup.go, reboot functions (all 3), checks results from results.go, admin permissions
+
 package main
 
 import (
@@ -84,6 +88,10 @@ func reboot() {
 			if setup.CurrentReboots == setup.MaxReboots {
 				setup.Status = "noReboot"
 			}
+
+
+			// wait 10 s to allow cameras to reload
+			time.Sleep(10 * time.Second)
 
 			// also call results function here and redefine isPassed, checks all cameras
 
@@ -177,6 +185,14 @@ func rebootSwitch(ip string, user string, pass string) { // Reboot switches thro
 	}
 	// data, _ := ioutil.ReadAll(res.Body)
 	res.Body.Close()
+}
+
+//_______________________________________________________________________rebootUIO8________________________________________________________________________________
+func rebootUIO8(ip string) {
+	c, err := net.Dial("tcp", ip)
+	if err != nil {
+		log.Println("UIO8 Dial Failed")
+	}
 }
 
 //______________________________________________________________________admin______________________________________________________________________________________

@@ -2,21 +2,23 @@ package main
 
 import (
 	"log"
-
-	"github.com/nareix/joy4/format/rtsp"
+	"net"
+	"os"
 )
 
 //"io/ioutil"
 
 func main() {
-	uri := "rtsp://10.10.1.106/stream1"
-	c, err := rtsp.Dial(uri)
+	command := ""
+	ip := "192.0.0.10"
+	c, err := net.Dial("tcp", ip)
 	if err != nil {
-		log.Println("rtsp dial failed")
-		return
+		log.Println("UIO8 Dial Failed")
 	}
-	playerr := c.Play()
-	if playerr != nil {
-		log.Println("play failed")
+
+	_, err = c.Write([]byte(command))
+	if err != nil {
+		println("Write to server failed:", err.Error())
+		os.Exit(1)
 	}
 }

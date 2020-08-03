@@ -15,7 +15,9 @@ const Styles = styled.div`
    .actions{
     padding-top: 2em;
   }
-  Form.Group {
+
+  Form.Row {
+    padding-top: 1em;
   }
 `;
 
@@ -56,7 +58,12 @@ class Setup extends Component{
     }
 
     onSave(){ // save form except status (no action yet)
-      const newSetup =
+      this.setState({status:'noReboot'})
+      this.onSend();
+    }
+
+  onSend(){
+    const newSetup =
         {
           status:this.state.status,
           date: this.state.date,
@@ -78,14 +85,14 @@ class Setup extends Component{
   onReset(){ // sets status to no action
     console.log('Cancelling')
     this.setState({status:'noReboot'})
-    this.onSave();
+    this.onSend();
     var pid = this.state.pids.shift()
     console.log('Stopped: ', pid)
   }
 
   onStart(){ // starting 
       console.log('Starting: ', __dirname) // dirname is client\.gotron\assets
-      this.onSave(); 
+      this.onSend(); 
       if(this.state.pids.length >=1){ // if a process is already running, don't start another
         alert('Error: Too many processes. Please close the current process to continue.')
       }
@@ -111,6 +118,7 @@ class Setup extends Component{
             <div className="Setup" id="setup">
                 <h2>Reboot</h2>
                 <Form > 
+                <Form.Row><h3>User Information</h3></Form.Row>
                 <Form.Row >
                   <Form.Group as={Col} sm="3">
                     <Form.Label>Username</Form.Label>
@@ -126,7 +134,7 @@ class Setup extends Component{
                   </Form.Group>
                   </Form.Row>
 
-                <Form.Row>
+                {/* <Form.Row>
                   <Form.Group >
                     Selected value: <b>{this.state.status}</b>
                   </Form.Group>
@@ -136,8 +144,10 @@ class Setup extends Component{
                   <Form.Group >
                     Current processes running: <b>{this.state.pids.length}</b>
                   </Form.Group>
-                </Form.Row>
+                </Form.Row> */}
 
+                <Form.Row><h3>Testing Configuration</h3></Form.Row>
+                
                 <Form.Row >
                   <Form.Group as={Col } sm="1" >
                     <Checkbox

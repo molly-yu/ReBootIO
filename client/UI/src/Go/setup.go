@@ -1,3 +1,8 @@
+// Molly Yu
+// Setup.go
+// Get & Put functions for setup
+
+
 package main
 
 import (
