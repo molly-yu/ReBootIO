@@ -37,11 +37,15 @@ function createWindow() {
   // Replace Preload Script
   opts.webPreferences.preload = path.resolve(`${__dirname}/preload.js`);
 
+  opts.webPreferences.webSecurity = false;
+
   // Create the browser window.
   win = new BrowserWindow(opts)
 
   // and load the index.html of the app.
+  setTimeout(() => {
   win.loadURL(`file://${__dirname}/assets/index.html`)
+  }, 2000)
 
   // Open the DevTools.
   // win.webContents.openDevTools()

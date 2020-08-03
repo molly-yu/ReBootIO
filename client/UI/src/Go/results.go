@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"github.com/nareix/joy4/format/rtsp"
 )
 
 type camera struct {
@@ -139,13 +140,21 @@ func pingCamera(ip string) bool { // return true if passed
 	fmt.Println("% loss:", loss)
 	if loss <= 50 {
 		return true
-	} else {
-		return false
 	}
-
+	return false
 }
 
 func videoCamera(ip string) bool { // determine video loss through rtsp connection to play video
-
+	uri := "rtsp://" + ip + "/stream1"
+	c, err := rtsp.Dial(uri)
+	if err != nil {
+		log.Println("rtsp dial failed")
+		return false
+	}
+	playerr := c.Play()
+	if playerr != nil {
+		log.Println("play failed")
+		return false
+	}
 	return true
 }

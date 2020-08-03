@@ -5,7 +5,7 @@
       "pass": "i3admin",
       "ip": "10.10.1.105",
       "ping": false,
-      "video": true,
+      "video": false,
       "id": 2
     },
     {
@@ -13,7 +13,7 @@
       "pass": "i3admin",
       "ip": "10.10.1.106",
       "ping": false,
-      "video": true,
+      "video": false,
       "id": 3
     },
     {
@@ -21,16 +21,8 @@
       "pass": "i3admin",
       "ip": "10.10.1.104",
       "ping": false,
-      "video": true,
+      "video": false,
       "id": 5
-    },
-    {
-      "user": "i3admin",
-      "pass": "i3admin",
-      "ip": "10.10.1.107",
-      "ping": false,
-      "video": true,
-      "id": 6
     }
   ],
   "setup": {
@@ -45,6 +37,6 @@
     "onTime": 0,
     "offTime": 0,
     "email": "",
-    "isPassed": true
+    "isPassed": false
   }
 }

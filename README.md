@@ -21,8 +21,7 @@ To start server,
 cd server`, and `node server.js` or `json-server --watch db.json --port 3000`
 To build, 
 `
-cd client/UI`, and `npm start
-`
+cd client/UI`, and `npm start`
 
 To run,
 `cd ..`, and `go run main.go`
@@ -32,5 +31,9 @@ To run server, client, and Go code together, run
 
 To run backend functions, run
 `cd client/ui/src` `go build` and `./src`
+
+To create executable, run 
+`npm run pkg`
+
 
 Front-end developed with React JS, implementing Redux for setup and camera state management. Application run in a Go program using Gotron, a Go API for Electron to create cross-platform applications. Backend server created in JSON format. Main backend features written in Go, including rebooting and result retrieval through TCP/IP (HTTP, RTSP) connection to network devices.

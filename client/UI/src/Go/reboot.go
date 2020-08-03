@@ -105,9 +105,9 @@ func CheckCameras(cameras []camera) bool {
 	for i := 0; i < len(cameras); i++ { // check cameras
 		ip := cameras[i].Ip
 		cameras[i].Ping = pingCamera(ip)
-		cameras[i].Video = true
+		cameras[i].Video = videoCamera(ip)
 		postCamera(cameras[i])
-		if !cameras[i].Ping {
+		if !cameras[i].Ping || !cameras[i].Video{
 			isPassed = false
 			fmt.Println("Camera fail")
 		}
