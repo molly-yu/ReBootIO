@@ -50,6 +50,20 @@ class Setup extends Component{
   
     componentDidMount(){
       this.props.fetchSetup();
+      this.setState({
+        status: this.props.setup.status,
+        date:this.props.setup.date,
+        currentReboots: this.props.currentReboots,
+        maxReboots: this.props.setup.maxReboots,
+        switchIP: this.props.setup.switchIP,
+        user : this.props.setup.user,
+        UIO8IP: this.props.setup.UIO8IP,
+        pass : this.props.setup.pass,
+        onTime:this.props.setup.onTime,
+        offTime:this.props.setup.offTime,
+        email:this.props.setup.email,
+        isPassed:this.props.setup.isPassed,
+      })
     }
 
     handleChange = date => this.setState({ date })

@@ -81,7 +81,7 @@ func reboot() {
 				// 	fmt.Printf("Error: %s", err.Error())
 				// }
 			} else if setup.Status == "UIO8" {
-
+				rebootUIO8(setup.UIO8IP)
 			}
 			fmt.Println("Rebooted")
 			setup.CurrentReboots++
