@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack --mode development",
     "build": "webpack --mode production",
-    "pkg": "pkg . --o rbio.exe -d -c",
+    "pkg": "pkg . --o arbs.exe -d -c",
     "server": "cd ../../server && node server.js",
     "client": "npm start",
     "go": "cd .. && client.exe",
