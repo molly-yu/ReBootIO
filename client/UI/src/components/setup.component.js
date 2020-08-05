@@ -11,9 +11,12 @@ const { spawn } = require('child_process');
 
 const Styles = styled.div`
   margin: 2em;
-
-   .actions{
+  .section {
     padding-top: 2em;
+    padding-bottom: 2em;
+  }
+   .actions{
+    padding: 2em;
   }
 
   Form.Row {
@@ -131,22 +134,25 @@ class Setup extends Component{
             <Styles>
             <div className="Setup" id="setup">
                 <h2>Reboot</h2>
+                
                 <Form > 
+                <div className="section">
                 <Form.Row><h3>User Information</h3></Form.Row>
                 <Form.Row >
-                  <Form.Group as={Col} sm="3">
+                  <Form.Group as={Col} sm="2">
                     <Form.Label>Username</Form.Label>
                     <Form.Control name="user" onChange={this.onChange} value={this.state.user} placeholder="i3admin" />
                   </Form.Group>
-                  <Form.Group as={Col} sm="3">
+                  <Form.Group as={Col} sm="2">
                     <Form.Label>Password</Form.Label>
                     <Form.Control name="pass" onChange={this.onChange} value={this.state.pass} placeholder="i3admin" />
                   </Form.Group>
-                  <Form.Group as={Col} sm="3">
+                  <Form.Group as={Col} sm="2">
                     <Form.Label>Email</Form.Label>
                     <Form.Control name="email" onChange={this.onChange} value={this.state.email} placeholder="Email" />
                   </Form.Group>
                   </Form.Row>
+                  </div>
 
                 {/* <Form.Row>
                   <Form.Group >
@@ -159,6 +165,7 @@ class Setup extends Component{
                     Current processes running: <b>{this.state.pids.length}</b>
                   </Form.Group>
                 </Form.Row> */}
+                <div className="section">
 
                 <Form.Row><h3>Testing Configuration</h3></Form.Row>
                 
@@ -173,8 +180,8 @@ class Setup extends Component{
                       onChange={this.onChange}
                     />
                   </Form.Group>
-                  <Form.Group as={Col} sm="3">
-                    <Form.Label>Reboot Date and Time</Form.Label>
+                  <Form.Group as={Col} xl="2" lg="3">
+                    <Form.Label>Reboot Date and Time </Form.Label>
                   <DateTimePicker
                   onChange={this.handleChange}
                   value={this.state.date}
@@ -201,7 +208,7 @@ class Setup extends Component{
                     <Form.Label>IP</Form.Label>
                     <Form.Control name="switchIP" onChange={this.onChange} value={this.state.switchIP} placeholder="192.168.0.0" />
                   </Form.Group>
-                  <Form.Group as={Col} sm="3">
+                  <Form.Group as={Col} sm="2">
                     <Form.Label>Time Interval</Form.Label>
                     <Form.Control name="interval" placeholder="mm:ss" />
                   </Form.Group>
@@ -218,15 +225,15 @@ class Setup extends Component{
                       onChange={this.onChange}
                     />
                   </Form.Group>
-                  <Form.Group as={Col} sm="3">
+                  <Form.Group as={Col} sm="2">
                     <Form.Label>IP</Form.Label>
                     <Form.Control name="UIO8IP" onChange={this.onChange} value={this.state.UIO8IP} placeholder="192.168.0.0" />
                   </Form.Group>
-                  <Form.Group as={Col} sm="1.5">
+                  <Form.Group as={Col} sm="1">
                     <Form.Label>ON Time</Form.Label>
                     <Form.Control name="onTime" onChange={this.onChange} value={this.state.onTime} placeholder="mm:ss" />
                   </Form.Group>
-                  <Form.Group as={Col} sm="1.5">
+                  <Form.Group as={Col} sm="1">
                     <Form.Label>OFF Time</Form.Label>
                     <Form.Control name="offTime" onChange={this.onChange} value={this.state.offTime} placeholder="mm:ss" />
                   </Form.Group>
@@ -242,6 +249,8 @@ class Setup extends Component{
                 <Button variant="primary" type="button" onClick={() => this.onSave()}>
                   Save
                 </Button>
+                </div>
+
                 </Form>
 
                 <div className="actions">
@@ -251,7 +260,7 @@ class Setup extends Component{
                   <Button variant="outline-primary" type="button" onClick={this.onReset}>
                     Cancel
                   </Button>
-                </div>
+                  </div>
             
               </div>
             </Styles>
