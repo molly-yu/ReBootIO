@@ -60,7 +60,7 @@ export default class Navbar extends Component{
         return(
             <Styles>
             <nav className="navbar navbar-expand-lg">
-                <a className="navbar-brand" href="#">RebootIO</a>
+                <a className="navbar-brand" href="#">ARBSUtility</a>
                 <div className="collapse navbar-collapse">
                     {/* <ul className="navbar-nav mr-auto">
                      <li className="navbar-item">
