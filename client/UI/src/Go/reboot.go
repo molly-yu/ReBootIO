@@ -190,8 +190,8 @@ func rebootSwitch(ip string, user string, pass string) { // Reboot switches thro
 //_______________________________________________________________________rebootUIO8________________________________________________________________________________
 func rebootUIO8(ip string, onTime int, offTime int) { 
 	// turn controller ON
-	onUri := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=1&id=0.5887469878495948"},"")
-	res1, err1 := http.Get(onUri)
+	onURI := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=1&id=0.5887469878495948"},"")
+	res1, err1 := http.Get(onURI)
 	if err1 != nil {
 		fmt.Printf("Error: %s", err1.Error())
 	}
@@ -201,8 +201,8 @@ func rebootUIO8(ip string, onTime int, offTime int) {
 	time.Sleep(time.Duration(onTime) * time.Second) // keep controller ON for onTime
 
 	// turn controller OFF
-	offUri := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=0&id=0.3136638232170674"},"")
-	res2, err2 := http.Get(offUri)
+	offURI := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=0&id=0.3136638232170674"},"")
+	res2, err2 := http.Get(offURI)
 	if err2 != nil {
 		fmt.Printf("Error: %s", err2.Error())
 	}

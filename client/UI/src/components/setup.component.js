@@ -12,11 +12,11 @@ const { spawn } = require('child_process');
 const Styles = styled.div`
   margin: 2em;
   .section {
-    padding-top: 2em;
+    padding-top: 0.5em;
     padding-bottom: 2em;
   }
    .actions{
-    padding: 2em;
+    padding-top: 2em;
   }
 
   Form.Row {
@@ -225,7 +225,7 @@ class Setup extends Component{
                       onChange={this.onChange}
                     />
                   </Form.Group>
-                  <Form.Group as={Col} sm="2">
+                  <Form.Group as={Col} sm="3">
                     <Form.Label>IP</Form.Label>
                     <Form.Control name="UIO8IP" onChange={this.onChange} value={this.state.UIO8IP} placeholder="192.168.0.0" />
                   </Form.Group>
