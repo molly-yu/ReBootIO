@@ -51,8 +51,23 @@ func reboot() {
 			if setup.Status == "SRX-Pro" { // reset srx-pro through date/time change
 
 				tm := setup.Date
+				 
+				// parse time interval
+				interval := setup.Time1
+				i := strings.Index(interval, ":") // index of ":"
+				a := []rune(interval)
+				min := string(a[0:i])
+				sec := string(a[i+1 : len(a)])
+				m, err := strconv.Atoi(min)
+				if err != nil {
+					fmt.Printf("Error: %s", err.Error())
+				}
+				s, er := strconv.Atoi(sec)
+				if er != nil {
+					fmt.Printf("Error: %s", er.Error())
+				}
 
-				time.Sleep(10 * time.Second) // we can replace this with time interval later on
+				time.Sleep(time.Duration(s) * time.Second + time.Duration(m) * time.Minute) // we can replace this with time interval later on
 
 				//dt := time.Date(2020, 06, 17, 20, 34, 58, 65, time.UTC) // yyyy, mm, dd, hh, min, ss, ms
 				dt, _ = time.Parse("2006-01-02T15:04:05Z", tm)
@@ -74,6 +89,23 @@ func reboot() {
 				ip := setup.SwitchIP
 				user := setup.User
 				pass := setup.Pass
+
+				// parse time interval
+				interval := setup.Time2
+				i := strings.Index(interval, ":") // index of ":"
+				a := []rune(interval)
+				min := string(a[0:i])
+				sec := string(a[i+1 : len(a)])
+				m, err := strconv.Atoi(min)
+				if err != nil {
+					fmt.Printf("Error: %s", err.Error())
+				}
+				s, err2 := strconv.Atoi(sec)
+				if err2 != nil {
+					fmt.Printf("Error: %s", err2.Error())
+				}
+
+				time.Sleep(time.Duration(s) * time.Second + time.Duration(m) * time.Minute) // sleep for time interval
 
 				rebootSwitch(ip, user, pass)
 				// err := rebootSwitch(ip, user, pass)

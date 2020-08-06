@@ -27,6 +27,8 @@ type setup struct { // struct defining state of setup
 	UIO8IP         string `json:"UIO8IP"`
 	OnTime         int    `json:"onTime"`
 	OffTime        int    `json:"offTime"`
+	Time1 		   string `json:"time1"`
+	Time2 		   string `json:"time2"`
 	Email          string `json:"email"`
 	IsPassed       bool   `json:"isPassed"`
 }

@@ -38,6 +38,8 @@ class Setup extends Component{
       UIO8IP: this.props.setup.UIO8IP,
       onTime:this.props.setup.onTime,
       offTime:this.props.setup.offTime,
+      time1: this.props.setup.time1,
+      time2: this.props.setup.time2,
       email:this.props.setup.email,
       isPassed:this.props.setup.isPassed,
 
@@ -64,6 +66,8 @@ class Setup extends Component{
         pass : this.props.setup.pass,
         onTime:this.props.setup.onTime,
         offTime:this.props.setup.offTime,
+        time1: this.props.setup.time1,
+        time2: this.props.setup.time2,
         email:this.props.setup.email,
         isPassed:this.props.setup.isPassed,
       })
@@ -92,6 +96,8 @@ class Setup extends Component{
           UIO8IP: this.state.UIO8IP,
           onTime:this.state.onTime,
           offTime:this.state.offTime,
+          time1:this.state.time1,
+          time2:this.state.time2,
           email:this.state.email,
           isPassed: true,
       };
@@ -189,7 +195,7 @@ class Setup extends Component{
                   </Form.Group>
                   <Form.Group as={Col} sm="3">
                     <Form.Label>Time Interval</Form.Label>
-                    <Form.Control type="interval" placeholder="mm:ss" />
+                    <Form.Control name="time1" onChange={this.onChange} value={this.state.time1} placeholder="mm:ss" />
                   </Form.Group>
                 </Form.Row>
 
@@ -210,7 +216,7 @@ class Setup extends Component{
                   </Form.Group>
                   <Form.Group as={Col} sm="2">
                     <Form.Label>Time Interval</Form.Label>
-                    <Form.Control name="interval" placeholder="mm:ss" />
+                    <Form.Control name="time2" onChange={this.onChange} value={this.state.time2} placeholder="mm:ss" />
                   </Form.Group>
                 </Form.Row>
 
