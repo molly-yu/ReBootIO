@@ -1,0 +1,4 @@
+Start relay: http://192.0.0.10/Contl1.cgi?Setctrl=1&id=0.5887469878495948
+Stop relay: http://192.0.0.10/Contl1.cgi?Setctrl=0&id=0.3136638232170674
+
+Change time intervals? 

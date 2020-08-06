@@ -231,11 +231,11 @@ class Setup extends Component{
                   </Form.Group>
                   <Form.Group as={Col} sm="1">
                     <Form.Label>ON Time</Form.Label>
-                    <Form.Control name="onTime" onChange={this.onChange} value={this.state.onTime} placeholder="mm:ss" />
+                    <Form.Control name="onTime" onChange={this.onChange} value={this.state.onTime} placeholder="seconds" />
                   </Form.Group>
                   <Form.Group as={Col} sm="1">
                     <Form.Label>OFF Time</Form.Label>
-                    <Form.Control name="offTime" onChange={this.onChange} value={this.state.offTime} placeholder="mm:ss" />
+                    <Form.Control name="offTime" onChange={this.onChange} value={this.state.offTime} placeholder="seconds" />
                   </Form.Group>
                 </Form.Row>
 

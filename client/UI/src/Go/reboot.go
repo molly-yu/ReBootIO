@@ -81,7 +81,7 @@ func reboot() {
 				// 	fmt.Printf("Error: %s", err.Error())
 				// }
 			} else if setup.Status == "UIO8" {
-				rebootUIO8(setup.UIO8IP)
+				rebootUIO8(setup.UIO8IP, setup.OnTime, setup.OffTime)
 			}
 			fmt.Println("Rebooted")
 			setup.CurrentReboots++
@@ -188,11 +188,28 @@ func rebootSwitch(ip string, user string, pass string) { // Reboot switches thro
 }
 
 //_______________________________________________________________________rebootUIO8________________________________________________________________________________
-func rebootUIO8(ip string) {
-	c, err := net.Dial("tcp", ip)
-	if err != nil {
-		log.Println("UIO8 Dial Failed")
+func rebootUIO8(ip string, onTime int, offTime int) { 
+	// turn controller ON
+	onUri := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=1&id=0.5887469878495948"},"")
+	res1, err1 := http.Get(onUri)
+	if err1 != nil {
+		fmt.Printf("Error: %s", err1.Error())
 	}
+	// data, _ := ioutil.ReadAll(res.Body)
+	res1.Body.Close()
+
+	time.Sleep(time.Duration(onTime) * time.Second) // keep controller ON for onTime
+
+	// turn controller OFF
+	offUri := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=0&id=0.3136638232170674"},"")
+	res2, err2 := http.Get(offUri)
+	if err2 != nil {
+		fmt.Printf("Error: %s", err2.Error())
+	}
+	// data, _ := ioutil.ReadAll(res.Body)
+	res2.Body.Close()
+
+	time.Sleep(time.Duration(offTime) * time.Second) // keep controller OFF for offTime
 }
 
 //______________________________________________________________________admin______________________________________________________________________________________
