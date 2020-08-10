@@ -68,7 +68,7 @@ class Cameras extends Component{
                 <h2>Add Camera </h2>
                 <Form onSubmit={this.onSubmit}>
                     <Form.Row>
-                        <Col>
+                        <Col sm="3">
                         <Form.Label>Camera IP </Form.Label>
                         <InputGroup className="mb-3">
                             {/* <InputGroup.Prepend >
@@ -79,13 +79,13 @@ class Cameras extends Component{
                             <FormControl name="ip" onChange={this.onChange} value={this.state.ip} aria-describedby="basic-addon3" />
                         </InputGroup>
                         </Col>
-                        <Col>
+                        <Col sm="3">
                         <Form.Group >
                             <Form.Label>Username</Form.Label>
                             <Form.Control name="user" onChange={this.onChange} value={this.state.user} placeholder="Username" />
                         </Form.Group>
                         </Col>
-                        <Col>
+                        <Col sm="3">
                         <Form.Group >
                             <Form.Label>Password</Form.Label>
                             <Form.Control name="pass" onChange={this.onChange} value={this.state.pass} placeholder="Password" />

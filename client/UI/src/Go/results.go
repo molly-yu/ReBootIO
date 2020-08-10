@@ -33,7 +33,7 @@ var cameras = []camera{}
 // _______________________________________________________________________getCameras_____________________________________________________________________________________
 func getCameras() []camera {
 	url := "http://localhost:3000/cameras"
-	//fmt.Println("URL:>", url)
+	fmt.Println("URL:>", url)
 
 	client := http.Client{
 		Timeout: time.Second * 3, // Timeout after 3 seconds
@@ -124,13 +124,14 @@ func postCamera(Camera camera) { // put info for one camera
 
 // ______________________________________________________________________ping Camera_____________________________________________________________
 func pingCamera(ip string) bool { // return true if passed
-	args := []string{"/C", "ping", ip, " -n 10"} // ping camera 10 times
+	args := []string{"/C", "ping -n 6", ip} // ping camera 6 times
 	cmd := exec.Command("cmd.exe", args...)
 	var out bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
-	err := cmd.Run()
+	cmd.Start()
+	err := cmd.Wait()
 	if err != nil {
 		fmt.Println(err.Error())
 	}

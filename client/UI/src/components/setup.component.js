@@ -25,6 +25,7 @@ const Styles = styled.div`
 `;
 
 class Setup extends Component{
+  _isMounted = false;
   constructor(props){
     super(props);
     this.state = {
@@ -54,7 +55,9 @@ class Setup extends Component{
   }
   
     componentDidMount(){
+      this._isMounted = true;
       this.props.fetchSetup();
+      if(this._isMounted){
       this.setState({
         status: this.props.setup.status,
         date:this.props.setup.date,
@@ -72,6 +75,11 @@ class Setup extends Component{
         isPassed:this.props.setup.isPassed,
       })
     }
+    }
+
+    componentWillUnmount(){
+      this._isMounted = false;
+    }
 
     handleChange = date => this.setState({ date })
     onChange(e) {
@@ -84,18 +92,19 @@ class Setup extends Component{
     }
 
   onSend(){
+
     const newSetup =
         {
-          status:this.state.status,
+          status: this.state.status,
           date: this.state.date,
           currentReboots: 0,
-          maxReboots: parseInt(this.state.maxReboots, 10),
+          maxReboots:  parseInt(this.state.maxReboots, 10),
           switchIP: this.state.switchIP,
           user: this.state.user,
           pass: this.state.pass,
           UIO8IP: this.state.UIO8IP,
-          onTime:this.state.onTime,
-          offTime:this.state.offTime,
+          onTime:parseInt(this.state.onTime,10),
+          offTime:parseInt(this.state.offTime,10),
           time1:this.state.time1,
           time2:this.state.time2,
           email:this.state.email,
@@ -117,8 +126,11 @@ class Setup extends Component{
       console.log('Starting: ', __dirname) // dirname is client\.gotron\assets
       this.onSend(); 
       if(this.state.pids.length >=1){ // if a process is already running, don't start another
-        alert('Error: Too many processes. Please close the current process to continue.')
+        alert('Error: Too many processes. Please close the current process to continue.', 'Error')
       }
+      else if (!this.handleValidation()){ // checks if everything is filled out
+        alert('The form is incomplete. Cannot reboot.', 'Error');
+    }
       else {
       const child = spawn(__dirname + '\\..\\..\\ui\\src\\Go\\Go.exe', {detached: true});
       this.state.pids.push(child.pid)
@@ -132,8 +144,37 @@ class Setup extends Component{
         this.onReset()
       });
       }
-      
   }
+
+  handleValidation(){ // whether or not form is valid
+    let status=this.state.status
+    let date = this.state.date
+    let user=this.state.user
+    let pass=this.state.pass
+    let maxReboots=this.state.maxReboots
+    let switchIP= this.state.switchIP
+    let UIO8IP= this.state.UIO8IP
+    let onTime=this.state.onTime
+    let offTime=this.state.offTime
+    let time1=this.state.time1
+    let time2=this.state.time2
+    let email=this.state.email
+    let isValid = true
+
+    if (status=='noReboot' || maxReboots == null || email == undefined || user == undefined || pass == undefined){
+      isValid = false
+    }
+    else if (status == 'SRX-Pro' && (date == undefined || time1 == undefined)){
+      isValid = false
+    }
+    else if (status=="Switch" && (switchIP == undefined ||time2 ==undefined)){
+      isValid = false
+    }
+    else if (status=="UIO8" && (UIO8IP == undefined||onTime == null ||offTime ==null)){
+      isValid = false
+    }
+    return isValid;
+}
 
     render() {
         return(

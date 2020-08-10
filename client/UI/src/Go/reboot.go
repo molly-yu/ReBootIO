@@ -24,7 +24,6 @@ import (
 func reboot() {
 	fmt.Println("Getting")
 	setup := getInfo() // get setup
-
 	if setup.Status != "noReboot" { // run reboot
 		cameras := getCameras() // get info for cameras
 		dt := time.Now()
