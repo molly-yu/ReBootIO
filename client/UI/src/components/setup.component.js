@@ -227,14 +227,14 @@ class Setup extends Component{
                       onChange={this.onChange}
                     />
                   </Form.Group>
-                  <Form.Group as={Col} xl="2" lg="3">
+                  <Form.Group as={Col} xl="2" sm="3">
                     <Form.Label>Reboot Date and Time </Form.Label>
                   <DateTimePicker
                   onChange={this.handleChange}
                   value={this.state.date}
                   />
                   </Form.Group>
-                  <Form.Group as={Col} sm="3">
+                  <Form.Group as={Col} xl="3" sm="2">
                     <Form.Label>Time Interval</Form.Label>
                     <Form.Control name="time1" onChange={this.onChange} value={this.state.time1} placeholder="mm:ss" />
                   </Form.Group>

@@ -1,4 +1,4 @@
-import { UPDATE_SETUP, FETCH_SETUP, SAVE_OPTION } from './types';
+import { UPDATE_SETUP, FETCH_SETUP } from './types';
 import axios from 'axios';
 
 export const fetchSetup = () => dispatch => {

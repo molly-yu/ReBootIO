@@ -1,6 +1,6 @@
 // server.js
 const jsonServer = require('json-server')
-
+Stream = require('node-rtsp-stream')
 const server = jsonServer.create()
 const router = jsonServer.router('./db.json')
 const middlewares = jsonServer.defaults()
@@ -28,6 +28,16 @@ server.use(middlewares)
 //   });
 //   newCamera.save().then(camera => res.json(camera)).catch(err => res.status(400).json('Error: ' + err));
 // });
+
+stream = new Stream({
+  name: 'name',
+  streamUrl: 'rtsp://10.10.1.106/stream1',
+  wsPort: 8000,
+  ffmpegOptions: { // options ffmpeg flags
+    '-stats': '', // an option with no neccessary value uses a blank string
+    '-r': 30 // options with required values specify the value after the key
+  }
+})
 
 
 server.use(router)

@@ -124,7 +124,7 @@ func postCamera(Camera camera) { // put info for one camera
 
 // ______________________________________________________________________ping Camera_____________________________________________________________
 func pingCamera(ip string) bool { // return true if passed
-	args := []string{"/C", "ping -n 6", ip} // ping camera 6 times
+	args := []string{"/C", "ping -n 8", ip} // ping camera 8 times
 	cmd := exec.Command("cmd.exe", args...)
 	var out bytes.Buffer
 	var stderr bytes.Buffer

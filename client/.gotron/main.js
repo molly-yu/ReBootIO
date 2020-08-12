@@ -1,8 +1,11 @@
 const { app, BrowserWindow } = require('electron')
 var WebSocketClient = require('websocket').client;
+//var jsmpeg = require('jsmpeg');
 const path = require('path');
+//var Canvas = document.getElementById('videoCanvas');
 var client = new WebSocketClient();
 var socket = null;
+
 
 // var execFile = require('child_process').execFile;
 
@@ -149,6 +152,9 @@ console.log("Main.js")
 console.log(port)
 
 client.connect('ws://127.0.0.1:' + port + browserWindowEvents, []);
+
+//client2 = new WebSocketClient('ws://127.0.0.1:9999')
+// player = new jsmpeg(client2, {canvas: Canvas})
 
 ipc.on('backend-port-request', (event, arg) => {
   event.returnValue = port;

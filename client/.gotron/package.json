@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "main.js",
   "dependencies": {
+    "jsmpeg": "^1.0.0",
     "websocket": "latest"
   },
   "devDependencies": {

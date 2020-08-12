@@ -66,8 +66,6 @@ func reboot() {
 					fmt.Printf("Error: %s", er.Error())
 				}
 
-				time.Sleep(time.Duration(s) * time.Second + time.Duration(m) * time.Minute) // we can replace this with time interval later on
-
 				//dt := time.Date(2020, 06, 17, 20, 34, 58, 65, time.UTC) // yyyy, mm, dd, hh, min, ss, ms
 				dt, _ = time.Parse("2006-01-02T15:04:05Z", tm)
 				fmt.Println(dt)
@@ -82,6 +80,8 @@ func reboot() {
 				}
 				// With short weekday (Mon)
 				// fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
+
+				time.Sleep(time.Duration(s) * time.Second + time.Duration(m) * time.Minute) // sleep for time duration
 
 			} else if setup.Status == "Switch" { // reset switches through http request
 
@@ -104,13 +104,13 @@ func reboot() {
 					fmt.Printf("Error: %s", err2.Error())
 				}
 
-				time.Sleep(time.Duration(s) * time.Second + time.Duration(m) * time.Minute) // sleep for time interval
-
 				rebootSwitch(ip, user, pass)
 				// err := rebootSwitch(ip, user, pass)
 				// if err != nil {
 				// 	fmt.Printf("Error: %s", err.Error())
 				// }
+				time.Sleep(time.Duration(s) * time.Second + time.Duration(m) * time.Minute) // sleep for time interval
+
 			} else if setup.Status == "UIO8" {
 				rebootUIO8(setup.UIO8IP, setup.OnTime, setup.OffTime)
 			}
@@ -121,8 +121,8 @@ func reboot() {
 			}
 
 
-			// wait 10 s to allow cameras to reload
-			time.Sleep(10 * time.Second)
+			// wait 20 s to allow reboot to occur and for cameras to reload
+			time.Sleep(20 * time.Second)
 
 			// also call results function here and redefine isPassed, checks all cameras
 

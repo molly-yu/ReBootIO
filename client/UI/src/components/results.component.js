@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
  import {fetchCameras, deleteCamera} from '../actions/cameraActions';
 import styled from 'styled-components';
 import { Form, FormControl, InputGroup, Row, Col, Button, Table } from 'react-bootstrap';
+import { Modal1 } from './modal.component';
 
 const Styles = styled.div`
 margin: 2em;
@@ -16,6 +17,10 @@ height:100vh;
 class Results extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            addModalShow: false,
+            camip: null
+        }
         this.onDeleteClick = this.onDeleteClick.bind(this);
     }
 
@@ -46,8 +51,12 @@ onDeleteClick = id => {
                 { (!camera.video) &&
                     <td><span >&#9747;</span></td>
                 }
-        <td><Button className="remove-btn" size="sm" onClick={() => this.onDeleteClick(camera.id) }>{camera.id}</Button></td>
+                <td><Button className="remove-btn" size="sm" onClick={() => this.onDeleteClick(camera.id) }>{camera.id}</Button></td>
+                <td><Button className="display-btn" size="sm" onClick={() => this.setState({addModalShow: true, camip: camera.ip}) }>View</Button></td>
+                
             </tr>);
+
+            let addModalClose = () => this.setState({addModalShow: false, camid:null});
 
         return(
             <Styles>
@@ -62,12 +71,19 @@ onDeleteClick = id => {
                             <th>Ping</th>
                             <th>Video Loss</th>
                             <th>Delete</th>
+                            <th>Display</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {cameraItems}        
+                            {cameraItems}      
                         </tbody>
                         </Table>
+                        <Modal1
+                        show={this.state.addModalShow}
+                        onHide={addModalClose}
+                        cameraip= {this.state.camip}
+                    />
+                        
             </div>
             </Styles>
         )
