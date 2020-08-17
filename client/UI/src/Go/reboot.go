@@ -81,6 +81,8 @@ func reboot() {
 				// fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
 
 				time.Sleep(time.Duration(s)*time.Second + time.Duration(m)*time.Minute) // sleep for time duration
+				// wait 90 s to allow reboot to occur and for cameras to reload
+				time.Sleep(90 * time.Second)
 
 			} else if setup.Status == "Switch" { // reset switches through http request
 
@@ -109,6 +111,8 @@ func reboot() {
 				// 	fmt.Printf("Error: %s", err.Error())
 				// }
 				time.Sleep(time.Duration(s)*time.Second + time.Duration(m)*time.Minute) // sleep for time interval
+				// wait 90 s to allow reboot to occur and for cameras to reload
+				time.Sleep(90 * time.Second)
 
 			} else if setup.Status == "UIO8" {
 				rebootUIO8(setup.UIO8IP, setup.OnTime, setup.OffTime)

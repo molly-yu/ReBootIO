@@ -2,7 +2,6 @@
 // Results.go
 // Gets list of cameras from database, tests ping/video loss for the cameras, and post functions for cameras
 
-
 package main
 
 import (
@@ -16,6 +15,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
 	"github.com/nareix/joy4/format/rtsp"
 )
 
@@ -76,7 +76,7 @@ func postCameras(Cameras []camera) { // put the entire array of cameras
 	//fmt.Println("URL:>", url)
 
 	client := http.Client{
-		Timeout: time.Second * 5, // Timeout after 5 seconds
+		Timeout: time.Second * 8, // Timeout after 8 seconds
 	}
 
 	jsonStr, _ := json.MarshalIndent(&Cameras, "", "	")
@@ -102,7 +102,7 @@ func postCamera(Camera camera) { // put info for one camera
 	//fmt.Println("URL:>", url)
 
 	client := http.Client{
-		Timeout: time.Second * 5, // Timeout after 5 seconds
+		Timeout: time.Second * 8, // Timeout after 8 seconds
 	}
 
 	jsonStr, _ := json.MarshalIndent(&Camera, "", "	")
