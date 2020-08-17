@@ -7,6 +7,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -15,15 +16,13 @@ import (
 	"syscall"
 	"time"
 
-	//"io/ioutil"
-
 	"golang.org/x/sys/windows"
 )
 
 // __________________________________________________________________________reboot________________________________________________________________
 func reboot() {
 	fmt.Println("Getting")
-	setup := getInfo() // get setup
+	setup := getInfo()              // get setup
 	if setup.Status != "noReboot" { // run reboot
 		cameras := getCameras() // get info for cameras
 		dt := time.Now()
@@ -36,7 +35,7 @@ func reboot() {
 		}
 
 		// run reboot given that cameras all passed
-		for setup.CurrentReboots < setup.MaxReboots {  // while not at max reboots
+		for setup.CurrentReboots < setup.MaxReboots { // while not at max reboots
 
 			if setup.Status == "noReboot" { // return if status is no reboot (either failed cameras or testing cancelled)
 				return
@@ -50,7 +49,7 @@ func reboot() {
 			if setup.Status == "SRX-Pro" { // reset srx-pro through date/time change
 
 				tm := setup.Date
-				 
+
 				// parse time interval
 				interval := setup.Time1
 				i := strings.Index(interval, ":") // index of ":"
@@ -81,7 +80,7 @@ func reboot() {
 				// With short weekday (Mon)
 				// fmt.Println((dt).Format("01-02-2006 15:04:05.00 Mon"))
 
-				time.Sleep(time.Duration(s) * time.Second + time.Duration(m) * time.Minute) // sleep for time duration
+				time.Sleep(time.Duration(s)*time.Second + time.Duration(m)*time.Minute) // sleep for time duration
 
 			} else if setup.Status == "Switch" { // reset switches through http request
 
@@ -109,7 +108,7 @@ func reboot() {
 				// if err != nil {
 				// 	fmt.Printf("Error: %s", err.Error())
 				// }
-				time.Sleep(time.Duration(s) * time.Second + time.Duration(m) * time.Minute) // sleep for time interval
+				time.Sleep(time.Duration(s)*time.Second + time.Duration(m)*time.Minute) // sleep for time interval
 
 			} else if setup.Status == "UIO8" {
 				rebootUIO8(setup.UIO8IP, setup.OnTime, setup.OffTime)
@@ -120,7 +119,6 @@ func reboot() {
 				setup.Status = "noReboot"
 			}
 
-
 			// wait 20 s to allow reboot to occur and for cameras to reload
 			time.Sleep(20 * time.Second)
 
@@ -130,10 +128,8 @@ func reboot() {
 
 			if !setup.IsPassed {
 				setup.Status = "noReboot"
-				postInfo(setup)
-			} else {
-				postInfo(setup)
 			}
+			postInfo(setup)
 		}
 	}
 }
@@ -146,7 +142,7 @@ func CheckCameras(cameras []camera) bool {
 		cameras[i].Ping = pingCamera(ip)
 		cameras[i].Video = videoCamera(ip)
 		postCamera(cameras[i])
-		if !cameras[i].Ping || !cameras[i].Video{
+		if !cameras[i].Ping || !cameras[i].Video {
 			isPassed = false
 			fmt.Println("Camera fail")
 		}
@@ -219,28 +215,57 @@ func rebootSwitch(ip string, user string, pass string) { // Reboot switches thro
 }
 
 //_______________________________________________________________________rebootUIO8________________________________________________________________________________
-func rebootUIO8(ip string, onTime int, offTime int) { 
+func rebootUIO8(ip string, onTime int, offTime int) {
 	// turn controller ON
-	onURI := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=1&id=0.5887469878495948"},"")
-	res1, err1 := http.Get(onURI)
+	onUIO8(ip, onTime)
+
+	time.Sleep(10 * time.Second)
+	// turn controller OFF
+	offUIO8(ip, offTime)
+
+}
+
+func onUIO8(ip string, onTime int) {
+	onURI := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=1"}, "")
+	fmt.Println(onURI)
+	res1, err1 := http.NewRequest("GET", onURI, nil)
+	res1.Header.Add("Authorization", "Basic aTNhZG1pbjppM2FkbWlu")
+	client := &http.Client{}
+	resp1, err := client.Do(res1)
+
+	if err != nil {
+		panic(err)
+	}
 	if err1 != nil {
 		fmt.Printf("Error: %s", err1.Error())
 	}
-	// data, _ := ioutil.ReadAll(res.Body)
-	res1.Body.Close()
 
 	time.Sleep(time.Duration(onTime) * time.Second) // keep controller ON for onTime
+	// data, _ := ioutil.ReadAll(res.Body)
+	defer resp1.Body.Close()
 
-	// turn controller OFF
-	offURI := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=0&id=0.3136638232170674"},"")
-	res2, err2 := http.Get(offURI)
+}
+
+func offUIO8(ip string, offTime int) {
+	offURI := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=0"}, "")
+	fmt.Println(offURI)
+	res2, err2 := http.NewRequest("GET", offURI, nil)
+	res2.Header.Add("Authorization", "Basic aTNhZG1pbjppM2FkbWlu")
+	client := &http.Client{}
+	resp2, er := client.Do(res2)
+
+	if er != nil {
+		fmt.Println("Error here", er.Error())
+		log.Printf("%T %+v", er, er)
+		panic(er)
+	}
 	if err2 != nil {
 		fmt.Printf("Error: %s", err2.Error())
 	}
-	// data, _ := ioutil.ReadAll(res.Body)
-	res2.Body.Close()
 
 	time.Sleep(time.Duration(offTime) * time.Second) // keep controller OFF for offTime
+	//data, _ := ioutil.ReadAll(resp2.Body)
+	defer resp2.Body.Close()
 }
 
 //______________________________________________________________________admin______________________________________________________________________________________

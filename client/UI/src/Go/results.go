@@ -76,7 +76,7 @@ func postCameras(Cameras []camera) { // put the entire array of cameras
 	//fmt.Println("URL:>", url)
 
 	client := http.Client{
-		Timeout: time.Second * 3, // Timeout after 3 seconds
+		Timeout: time.Second * 5, // Timeout after 5 seconds
 	}
 
 	jsonStr, _ := json.MarshalIndent(&Cameras, "", "	")
@@ -102,7 +102,7 @@ func postCamera(Camera camera) { // put info for one camera
 	//fmt.Println("URL:>", url)
 
 	client := http.Client{
-		Timeout: time.Second * 3, // Timeout after 3 seconds
+		Timeout: time.Second * 5, // Timeout after 5 seconds
 	}
 
 	jsonStr, _ := json.MarshalIndent(&Camera, "", "	")
@@ -124,7 +124,7 @@ func postCamera(Camera camera) { // put info for one camera
 
 // ______________________________________________________________________ping Camera_____________________________________________________________
 func pingCamera(ip string) bool { // return true if passed
-	args := []string{"/C", "ping -n 8", ip} // ping camera 8 times
+	args := []string{"/C", "ping -n 6", ip} // ping camera 6 times
 	cmd := exec.Command("cmd.exe", args...)
 	var out bytes.Buffer
 	var stderr bytes.Buffer
