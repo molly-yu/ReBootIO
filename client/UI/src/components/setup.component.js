@@ -89,7 +89,7 @@ class Setup extends Component{
     }
 
     onSave(){ // save form except status (no action yet)
-      this.setState({status:'noReboot'})
+      this.setState({status:'noReboot', isPassed:true})
       this.onSend();
     }
 
@@ -110,7 +110,7 @@ class Setup extends Component{
           time1:this.state.time1,
           time2:this.state.time2,
           email:this.state.email,
-          isPassed: true,
+          isPassed: this.state.isPassed,
       };
       this.props.updateSetup(newSetup); // replaces fetch with createPost action
       window.test();
@@ -126,6 +126,7 @@ class Setup extends Component{
 
   onStart(){ // starting 
       console.log('Starting: ', __dirname) // dirname is client\.gotron\assets
+      this.setState({isPassed:true})
       this.onSend(); 
       if(this.state.pids.length >=1){ // if a process is already running, don't start another
         alert('Error: Too many processes. Please close the current process to continue.', 'Error')
