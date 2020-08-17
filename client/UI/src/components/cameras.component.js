@@ -34,7 +34,7 @@ class Cameras extends Component{
     onSubmit(e){
         e.preventDefault();
         if (!this.handleValidation()){ // checks if everything is filled out
-            alert("The form is incomplete.");
+            alert("The form is incomplete.", "Error");
         }
         else {
             const camera = {
@@ -45,7 +45,7 @@ class Cameras extends Component{
                 video: this.state.video
             };
             this.props.createCamera(camera); // adds camera to list
-            alert("Camera saved.");
+            alert("Camera saved.", "ARBSUtility");
         }
     }
 

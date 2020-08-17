@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import {Row, Col, Form, Button} from 'react-bootstrap';
 import { Checkbox } from 'semantic-ui-react';
 import DateTimePicker from 'react-datetime-picker';
+import emailjs from 'emailjs-com';
 const { spawn } = require('child_process');
 
 const Styles = styled.div`
@@ -49,9 +50,10 @@ class Setup extends Component{
 
     this.onChange=this.onChange.bind(this);
     this.handleChange=this.handleChange.bind(this);
-     this.onSave= this.onSave.bind(this);
-     this.onReset= this.onReset.bind(this);
-     this.onStart= this.onStart.bind(this);
+    this.onSave= this.onSave.bind(this);
+    this.onReset= this.onReset.bind(this);
+    this.onStart= this.onStart.bind(this);
+    this.sendEmail= this.sendEmail.bind(this);
   }
   
     componentDidMount(){
@@ -141,9 +143,30 @@ class Setup extends Component{
       
       child.on('exit', (code) => { // exits and removes current process from array
         console.log(`child process exited with code ${code}`);
+        this.sendEmail(this.state.isPassed, code)
         this.onReset()
       });
       }
+  }
+
+  sendEmail(isPassed, code) {
+    var template_params = {
+    }
+    var service_id = "outlook";
+    var user_id = ""; // enter user id here
+
+    if(isPassed && code==0){
+      var template_id = "success"; // pass
+    }
+    else{
+      var template_id = "success_clone"; // fail
+    }
+    emailjs.send(service_id, template_id, template_params, user_id)
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
   }
 
   handleValidation(){ // whether or not form is valid
@@ -177,6 +200,7 @@ class Setup extends Component{
 }
 
     render() {
+
         return(
             <Styles>
             <div className="Setup" id="setup">

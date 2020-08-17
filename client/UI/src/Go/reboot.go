@@ -130,9 +130,11 @@ func reboot() {
 
 			setup.IsPassed = CheckCameras(cameras)
 
-			if !setup.IsPassed {
+			setup2 := getInfo() // second setup to confirm current config
+			if !setup.IsPassed || setup2.Status == "noReboot" {
 				setup.Status = "noReboot"
 			}
+
 			postInfo(setup)
 		}
 	}
@@ -233,7 +235,7 @@ func onUIO8(ip string, onTime int) {
 	onURI := strings.Join([]string{"http://", ip, "/Contl1.cgi?Setctrl=1"}, "")
 	fmt.Println(onURI)
 	res1, err1 := http.NewRequest("GET", onURI, nil)
-	res1.Header.Add("Authorization", "Basic aTNhZG1pbjppM2FkbWlu")
+	res1.Header.Add("Authorization", "Basic {code}")
 	client := &http.Client{}
 	resp1, err := client.Do(res1)
 
