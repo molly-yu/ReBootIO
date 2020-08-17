@@ -37,3 +37,8 @@ To create executable, run
 
 
 Front-end developed with React JS, implementing Redux for setup and camera state management. Application run in a Go program using Gotron, a Go API for Electron to create cross-platform applications. Backend server created in JSON format. Main backend features written in Go, including rebooting and result retrieval through TCP/IP (HTTP, RTSP) connection to network devices.
+
+
+![picture](img/1.png)
+![picture](img/2.png)
+![picture](img/3.png)
