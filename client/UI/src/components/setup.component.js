@@ -144,8 +144,11 @@ class Setup extends Component{
       
       child.on('exit', (code) => { // exits and removes current process from array
         console.log(`child process exited with code ${code}`);
-        this.sendEmail(this.state.isPassed, code)
+        this.props.fetchSetup();
+        this.setState({isPassed: this.props.setup.isPassed, status:"noReboot"})
+        console.log(`Status: `, this.state.isPassed);
         this.onReset()
+        this.sendEmail(this.state.isPassed, code)
       });
       }
   }

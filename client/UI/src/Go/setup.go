@@ -39,7 +39,7 @@ func getInfo() setup { // retrieves setup info from server and returns setup
 	//fmt.Println("URL:>", url)
 
 	client := http.Client{
-		Timeout: time.Second * 3, // Timeout after 3 seconds
+		Timeout: time.Minute * 10, // Timeout after 10 minutes
 	}
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)

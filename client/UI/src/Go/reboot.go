@@ -165,6 +165,27 @@ func SetSystemDate(newTime time.Time) error { // Set the system date to desired 
 	// 	return lookErr
 	// } else {
 	dateString := newTime.Format("2006-01-02") // convert date to string
+	timeString := newTime.Format("15:04:05.00") // convert time to string
+	// converting timezone
+	a := []rune(timeString)
+	hour := string(a[0:2])
+	i, err := strconv.Atoi(hour)
+	if err != nil {
+		fmt.Printf("Error: %s", err.Error())
+	}
+	if i < 4 { // if before 3, change to previous day
+		b := []rune(dateString)
+		day := string(b[len(b)-2: len(b)])
+		rest:= string(b[0: len(b)-2])
+		j, err2 := strconv.Atoi(day)
+		if err2 != nil {
+			fmt.Printf("Error: %s", err2.Error())
+		}
+		j--
+		day = strconv.Itoa(j)
+		dateString = rest + day
+	} 
+
 	fmt.Printf("Setting system date to: %s\n", dateString)
 	args := []string{"/C", "date", dateString}
 	cmd := exec.Command("cmd.exe", args...) // cmd
